@@ -1,38 +1,34 @@
 class Solution {
 public:
-    double findMedianSortedArrays(vector<int> &nums1, vector<int> &nums2) {
-        if (nums1.size() == 0 && nums2.size() == 0){
-            return 0;
-        }
-        vector<int> ans(nums2.size() + nums1.size());
-        int i = 0, j = 0;
-        while (i < nums1.size() && j < nums2.size()) {
-            if (nums1.at(i) <= nums2.at(j)){
-                ans.at(i + j) = nums1.at(i);
-                i++;
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        if(nums2.size()<nums1.size()) return findMedianSortedArrays(nums2,nums1);
+        int n1,n2;
+        n1=nums1.size(),n2=nums2.size();
+        int low=0,high=n1;
+        while(low<=high)
+        {
+            int cut1=(low+high)>>1;
+            int cut2=(n1+n2+1)/2-cut1;
+            int l1=cut1==0?INT_MIN:nums1[cut1-1];
+            int l2=cut2==0?INT_MIN:nums2[cut2-1];
+            int r1=cut1==n1?INT_MAX:nums1[cut1];
+            int r2=cut2==n2?INT_MAX:nums2[cut2];
+            if(l1<=r2 and l2<=r1)
+            {
+                if((n1+n2)%2==0)
+                    return (max(l1,l2)+min(r1,r2))/2.0;
+                else
+                    return max(l1,l2);
             }
-            else{
-                ans.at(i + j) = nums2.at(j);
-                j++;
+            else if(l1>r2)
+            {
+                high=cut1-1;
+            }
+            else
+            {
+                low=cut1+1;
             }
         }
-        while(i < nums1.size()){
-            ans.at(i + j) = nums1.at(i);
-            i++;
-        }
-        while (j < nums2.size()){
-            ans.at(i + j) = nums2.at(j);
-            j++;
-        }
-//        for (auto num : ans ) {
-//            cout<<num << " ";
-//        }
-        double median = 0;
-        if (ans.size() % 2 == 0)
-            median = double (ans[ans.size() / 2] + ans[(ans.size() - 1) / 2]) / 2;
-        else
-            median = double (ans[ans.size() / 2]);
-        cout<<"\n" << median <<"\n";
-        return  median;
+        return 0.0;
     }
 };
