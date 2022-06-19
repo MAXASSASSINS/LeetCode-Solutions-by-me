@@ -5,23 +5,24 @@ public:
             return head;
         }
         ListNode *temp = head;
+        ListNode *lastNode = head;
         int countNodes = 0;
         while (temp!= nullptr){
             countNodes++;
+            lastNode = temp;
             temp = temp->next;
         }
         int rotateRight = k % countNodes;
-        for (int i = 0; i < rotateRight; ++i) {
-            ListNode *temp2 = head;
-            ListNode *prevTemp2 = head;
-            while (temp2->next != nullptr){
-                prevTemp2 = temp2;
-                temp2 = temp2->next;
-            }
-            temp2->next = head;
-            prevTemp2->next = nullptr;
-            head = temp2;
+        if(rotateRight == 0){
+            return head;
         }
+        temp = head;
+        for (int i = 0; i < countNodes - rotateRight - 1; ++i) {
+            temp = temp->next;
+        }
+        lastNode->next = head;
+        head = temp->next;
+        temp->next = nullptr;
         return head;
     }
 };
