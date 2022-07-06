@@ -1,6 +1,6 @@
 class Solution {
 public:
-    bool helper(TreeNode *leftSubtree, TreeNode *rightSubtree, TreeNode *root) {
+    bool helper(TreeNode *leftSubtree, TreeNode *rightSubtree) {
         if(leftSubtree == nullptr && rightSubtree == nullptr){
             return true;
         }
@@ -10,13 +10,13 @@ public:
         if(leftSubtree->val != rightSubtree->val){
             return false;
         }
-        return helper(leftSubtree->left, rightSubtree->right, root) && helper(leftSubtree->right, rightSubtree->left, root);
+        return helper(leftSubtree->left, rightSubtree->right) && helper(leftSubtree->right, rightSubtree->left);
 
     }
 
     bool isSymmetric(TreeNode* root) {
         TreeNode *leftSubtree = root;
         TreeNode *rightSubtree = root;
-        return helper(leftSubtree, rightSubtree, root);
+        return helper(leftSubtree, rightSubtree);
     }
 };
