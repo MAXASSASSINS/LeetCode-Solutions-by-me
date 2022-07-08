@@ -12,9 +12,9 @@ public:
             return head;
         }
         
-        if(head->next == nullptr  && head->val == val){
-            return head;
-        }
+        // if(head->next == nullptr  && head->val == val){
+        //     return head;
+        // }
 
         ListNode *curr = head->next;
         ListNode *prev = head;
