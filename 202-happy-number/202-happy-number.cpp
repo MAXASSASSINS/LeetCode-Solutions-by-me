@@ -1,7 +1,6 @@
 class Solution {
 public:
     bool isHappy(int n) {
-        unordered_map<int, vector<int>> ans;
         while (n != 1){
             int temp = 0;
             while (n != 0){
