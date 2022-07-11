@@ -16,8 +16,6 @@ public:
 
 
     TreeNode* invertTree(TreeNode* root) {
-        if (!root)
-            return root;
         helper(root);
         return root;
     }
