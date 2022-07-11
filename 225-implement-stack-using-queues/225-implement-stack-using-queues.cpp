@@ -1,7 +1,6 @@
 class MyStack {
 private:
     queue<int> first;
-    queue<int> second;
 public:
     MyStack() {}
 
@@ -15,12 +14,11 @@ public:
         if (size == 0){
             return -1;
         }
-        
+
         while (size - 1 != 0) {
-            second.push(first.front());
+            int val = first.front();
             first.pop();
-            first.push(second.front());
-            second.pop();
+            first.push(val);
             size--;
         }
         int firstFront = first.front();
