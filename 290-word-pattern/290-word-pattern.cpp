@@ -1,38 +1,41 @@
 class Solution {
 public:
-    bool wordPattern(string pattern, string s) {
-        unordered_map<char, string> m;
-        unordered_map<string, char> n;
-        int j = 0;
-        for (int i = 0; i < pattern.size(); ++i) {
-            if(i <= pattern.size() -1 && j >= s.size()){
-                return false;
-            }
-            string word;
-            while(j < s.length() && s[j] != ' '){
-                word += s[j];
-                j++;
-            }
-            j++;
-            if(m.count(pattern[i]) == 0){
-                m.insert(pair<char,string>(pattern[i], word));
-            }
-            else{
-                if(m[pattern[i]] != word){
-                    return false;
-                }
-            }
-            if(n.count(word) == 0){
-                n.insert(pair<string,char>(word, pattern[i]));
-            }
-            else{
-                if (n[word] != pattern[i]){
-                    return false;
-                }
-            }
-        }
-        if(j <= s.size() - 1){
+    bool wordPattern(string pattern, string s)
+    {
+        vector<string> v;
+        // word variable to store word in the string s
+        string word;
+        // making a string stream
+        stringstream iss(s);
+       // Push each word in vector
+        while (iss >> word)
+            v.push_back(word);
+      
+        set<string> S; // To check if the same word is not mappped with another character
+      // If vector and pattern are of different sizes there can be no mapping
+        if (pattern.size() != v.size())
             return false;
+        unordered_map<char, string> m;
+        for (int i = 0; i < pattern.size(); i++) {
+            // Take current character in pattern
+            char ch = pattern[i];
+            // If current character is present in the map
+            if (m.find(ch) != m.end()) {
+            //Check if the string mapped to that character is different or not if yes
+			//return false
+                if (m[ch] != v[i])
+                    return false;
+            }
+            // If not present in the map
+            else {
+                // Check if the string is previously in set
+                // If it is in set it means it is already mapped return false
+                if (S.count(v[i]) > 0)
+                    return false;
+                // Other wise insert into map and set
+                m[ch] = v[i];
+                S.insert(v[i]);
+            }
         }
         return true;
     }
