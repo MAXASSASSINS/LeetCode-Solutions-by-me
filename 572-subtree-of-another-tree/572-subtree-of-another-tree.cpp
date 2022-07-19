@@ -1,17 +1,26 @@
 class Solution {
 public:
-  bool areEqual(TreeNode* s, TreeNode* t) {
-    if (s == nullptr || t == nullptr) {
-      return s == t;  // both null
-    }
-    return s->val == t->val
-      && areEqual(s->left, t->left)
-      && areEqual(s->right, t->right);
-  }
-
-  bool isSubtree(TreeNode* s, TreeNode* t) {
-    return areEqual(s, t)
-      || (s->left && isSubtree(s->left, t))
-      || (s->right && isSubtree(s->right, t));
-  }
+   
+   bool isSametree(TreeNode* s, TreeNode* t){
+       if(!s || !t){
+           return s==NULL && t==NULL;
+       } 
+       else if(s->val == t->val){    
+           return isSametree(s->left,t->left) && isSametree(s->right,t->right);
+       }
+       else{
+           return false;
+       }
+   }
+   bool isSubtree(TreeNode* s, TreeNode* t) {
+         if(!s){
+             return false;
+         }   
+         else if(isSametree(s,t)){
+             return true;
+         }
+         else{
+             return isSubtree(s->left,t) || isSubtree(s->right,t);
+         }
+   }
 };
