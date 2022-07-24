@@ -1,20 +1,31 @@
 class Solution {
 public:
     vector<vector<int>> permuteUnique(vector<int>& nums) {
-        vector<vector<int>> output;
-        sort(begin(nums), end(nums));
-        generatePermutations(nums, output, 0);
-        return output;
+        vector<vector<int>> ans;
+        vector<int> curr;
+        unordered_map<int, int> counter;
+        for(auto x: nums){
+            ++counter[x];
+        }
+        helper(nums, ans, curr, counter);
+        
+        return ans;
     }
-private:
-    void generatePermutations(vector<int> nums, vector<vector<int>>& output, int idx) {
-        if (idx == size(nums)) {
-            output.emplace_back(nums);
+
+    void helper(const vector<int> &nums, vector<vector<int>> &ans, vector<int> &curr, unordered_map<int, int> counter) {
+        if(curr.size() == nums.size()){
+            ans.push_back(curr);
+            return;
         }
-        for (int i = idx; i < size(nums); ++i) {
-            if (i != idx && nums[i] == nums[idx]) continue;
-            swap(nums[i], nums[idx]);
-            generatePermutations(nums, output, idx + 1);
+
+        for(auto [key, value] : counter){
+            if(value == 0) continue;
+            curr.push_back(key);
+            --counter[key];
+            helper(nums, ans, curr, counter);
+            curr.pop_back();
+            ++counter[key];
         }
+        
     }
 };
