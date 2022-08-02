@@ -1,25 +1,26 @@
 class Solution {
 public:
     string removeDuplicates(string s) {
-        bool duplicateAdjacentFound = false;
-        while (true){
-            int i = 1;
-            while (i < s.length()) {
-                if(s.at( i - 1) == s.at(i)){
-                    s.erase(i - 1, 2);
-                    duplicateAdjacentFound = true;
-                    i -= 2;
-                    if(i < 0){
-                        i = 0;
-                    }
-                }
-                i++;
+        stack<char> st;
+        for (int i = 0; i < s.length(); ++i) {
+            char c = s.at(i);
+            if(st.empty()){
+                st.push(c);
             }
-            if (!duplicateAdjacentFound) {
-                break;
+            else if(st.top() == c){
+                st.pop();
             }
-            duplicateAdjacentFound = false;
+            else{
+                st.push(c);
+            }
         }
-        return s;
+        string ans;
+        while (!st.empty()){
+            char c = st.top();
+            ans += c;
+            st.pop();
+        }
+        std::reverse(ans.begin(), ans.end());
+        return ans;
     }
 };
