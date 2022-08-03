@@ -1,23 +1,17 @@
 class Solution {
 public:
+    vector<int> dp;
     int tribonacci(int n) {
-        int f = 0;
-        int s = 1;
-        int t = 1;
-        if(n == 0){
-            return f;
-        }
-        if(n <= 2){
-            return s;
-        }
-        int ans = 0;
-        ans = f + s + t;
-        for (int i = 4; i <= n; ++i) {
-            f = s;
-            s = t;
-            t = ans;
-            ans = f + s + t;
-        }
-        return ans;
+        dp.resize(n+1,-1);
+        return solve(n);
+        
     }
+    
+    int solve(int n){
+        if(dp[n]!=-1) return dp[n];
+        else if(n==0) return dp[0]=0; 
+        else if(n==1 || n==2) return dp[n]=1;
+        else return dp[n]=solve(n-1)+solve(n-2)+solve(n-3);
+    }
+    
 };
