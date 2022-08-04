@@ -1,17 +1,15 @@
 class Solution {
 public:
-    void helper(TreeNode *root, vector<int> &ans, int &maxDepth, int currentDepth){
+    void helper(TreeNode *root, int &ans, int &maxDepth, int currentDepth){
         if(root == nullptr){
             return;
         }
         if(root->left == nullptr && root->right == nullptr){
-            if(currentDepth > maxDepth){
-                ans.clear();
-                ans.push_back(root->val);
+            if (currentDepth > maxDepth) {
+                ans = root->val;
                 maxDepth = currentDepth;
-            }
-            else if(currentDepth == maxDepth){
-                ans.push_back(root->val);
+            } else if (currentDepth == maxDepth) {
+                ans += root->val;
             }
             return;
         }
@@ -20,10 +18,10 @@ public:
     }
 
     int deepestLeavesSum(TreeNode* root) {
-        vector<int> ans;
         int maxDepth = 0;
         int currentDepth = 0;
+        int ans = 0;
         helper(root, ans, maxDepth, currentDepth);
-        return std::accumulate(ans.begin(), ans.end(),0);
+        return ans;
     }
 };
