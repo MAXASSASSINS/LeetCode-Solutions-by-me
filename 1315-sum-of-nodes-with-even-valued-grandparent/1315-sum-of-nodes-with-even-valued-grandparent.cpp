@@ -1,22 +1,27 @@
 class Solution {
 public:
-    void helper(TreeNode *root, TreeNode *parent, TreeNode *grandParent, int &sum){
-        if (!root){
-            return;
-        }
-        if(grandParent != nullptr && grandParent->val % 2 == 0){
-            sum += root->val;
-        }
-        grandParent = parent;
-        parent = root;
-        helper(root->left, parent, grandParent, sum);
-        helper(root->right, parent, grandParent, sum);
-    }
     int sumEvenGrandparent(TreeNode* root) {
-        TreeNode *parent = nullptr;
-        TreeNode *grandParent = nullptr;
-        int sum = 0;
-        helper(root, parent, grandParent, sum);
+	
+        if(root==NULL) 
+		     return 0;
+        
+        int sum=0;
+        
+		
+        if(root->val%2==0){
+            if(root->left!=NULL && root->left->left!=NULL)
+                sum+=root->left->left->val;
+            if(root->left!=NULL && root->left->right!=NULL)
+                sum+=root->left->right->val;
+            if(root->right!=NULL && root->right->right!=NULL)
+                sum+=root->right->right->val;
+            if(root->right!=NULL && root->right->left!=NULL)
+                sum+=root->right->left->val;
+        }
+		
+        sum+=sumEvenGrandparent(root->left); 
+        sum+=sumEvenGrandparent(root->right); 
+		
         return sum;
     }
 };
