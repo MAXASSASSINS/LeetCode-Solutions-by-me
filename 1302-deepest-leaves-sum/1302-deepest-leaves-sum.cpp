@@ -1,29 +1,18 @@
 class Solution {
 public:
-    void helper(TreeNode *root, vector<int> &ans, int &maxDepth, int currentDepth){
-        if(root == nullptr){
-            return;
-        }
-        if(root->left == nullptr && root->right == nullptr){
-            if(currentDepth > maxDepth){
-                ans.clear();
-                ans.push_back(root->val);
-                maxDepth = currentDepth;
-            }
-            else if(currentDepth == maxDepth){
-                ans.push_back(root->val);
-            }
-            return;
-        }
-        helper(root->left, ans, maxDepth, currentDepth + 1);
-        helper(root->right, ans, maxDepth, currentDepth + 1);
-    }
-
     int deepestLeavesSum(TreeNode* root) {
-        vector<int> ans;
-        int maxDepth = 0;
-        int currentDepth = 0;
-        helper(root, ans, maxDepth, currentDepth);
-        return std::accumulate(ans.begin(), ans.end(),0);
-    }
+	int sum = 0, n;
+	queue<TreeNode*> q; // required for level-order traversal
+	q.push(root);
+	while(!q.empty()){
+		sum = 0, n = size(q); // reset sum when deeper level is reached and accumulate for that level
+		for(int i = 0; i < n; i++){
+			auto top = q.front(); q.pop();
+			sum += top -> val;     
+			if(top -> left) q.push(top -> left);
+			if(top -> right) q.push(top -> right);
+		}                
+	}
+	return sum; // final value held by 'sum' will be sum of values of nodes at the deepest level
+}
 };
