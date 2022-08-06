@@ -1,18 +1,44 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
 class Solution {
 public:
-    int pairSum(ListNode *head) {
-        vector<int> vec;
-        ListNode *temp = head;
-        while (temp != nullptr){
-            vec.push_back(temp->val);
-            temp = temp->next;
-        }
-        int ans = INT_MIN;
-        for (int i = 0; i < vec.size()/2; ++i) {
-            ans = max(ans, vec.at(i) + vec.at(vec.size() - 1 - i));
-        }
+    int pairSum(ListNode* head) {
+	ListNode* slow = head;
+	ListNode* fast = head;
+	int maxVal = 0;
 
-        return ans;
+	// Get middle of linked list
+	while(fast && fast -> next)
+	{
+		fast = fast -> next -> next;
+		slow = slow -> next;
+	}
 
-    }
+	// Reverse second part of linked list
+	ListNode *nextNode, *prev = NULL;
+	while (slow) {
+		nextNode = slow->next;
+		slow->next = prev;
+		prev = slow;
+		slow = nextNode;
+	}
+
+	// Get max sum of pairs
+	while(prev)
+	{
+		maxVal = max(maxVal, head -> val + prev -> val);
+		prev = prev -> next;
+		head = head -> next;
+	}
+
+	return maxVal;
+}
 };
