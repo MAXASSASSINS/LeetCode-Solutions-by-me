@@ -1,1 +1,1 @@
-​
+This is also called a Cartesian Tree. One interesting property is that if we do an in-order traversal, we get the array back which we used to create it.
