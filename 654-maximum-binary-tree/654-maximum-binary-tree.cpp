@@ -1,34 +1,21 @@
 class Solution {
 public:
-    int maxValIndex(const vector<int> &nums, int leftIndex, int rightIndex){
-        int maxVal = INT_MIN;
-        int index = -1;
-        for (int i = leftIndex; i < rightIndex; ++i) {
-            if(nums[i] > maxVal){
-                maxVal = nums[i];
-                index = i;
+    TreeNode* constructMaximumBinaryTree(vector<int>& nums) {
+        return constructMaximumBinaryTree(nums,0,nums.size()-1);
+    }
+    TreeNode* constructMaximumBinaryTree(vector<int>& nums,int start,int end) {
+        if(start>end) return nullptr;
+        int index=-1;
+        int val=-1;
+        for(int i=start;i<=end;i++){
+            if(nums[i]>val){
+                index=i;
+                val=nums[i];
             }
         }
-        return index;
-    }
-
-
-    TreeNode* helper(vector<int> &nums, int leftIndex, int rightIndex){
-        int index = maxValIndex(nums, leftIndex, rightIndex);
-        if(leftIndex == rightIndex){
-            return nullptr;
-        }
-        TreeNode *root = new TreeNode(nums[index]);
-        root->left = helper(nums, leftIndex, index);
-        root->right = helper(nums, index + 1, rightIndex);
+        TreeNode* root=new TreeNode(val);
+        root->left=constructMaximumBinaryTree(nums,start,index-1);
+        root->right=constructMaximumBinaryTree(nums,index+1,end);
         return root;
-    }
-
-
-    TreeNode* constructMaximumBinaryTree(vector<int>& nums) {
-        int leftIndex = 0;
-        int rightIndex = nums.size();
-        TreeNode *root = nullptr;
-        return  helper(nums, leftIndex, rightIndex);
     }
 };
