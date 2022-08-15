@@ -24,11 +24,24 @@ public:
         return min(dp[n-1], dp[n - 2]);
     }
 
+    int solve3(vector<int> &cost, int n){
+        int secondLast = cost[0];
+        int last = cost[1];
+
+        for (int i = 2; i < n; ++i) {
+            int curr = cost[i] + min(secondLast, last);
+            secondLast = last;
+            last = curr;
+        }
+        return min(last, secondLast);
+    }
+
     int minCostClimbingStairs(vector<int> &cost) {
         int n = cost.size();
         vector<int> dp(n + 1, -1);
 //        int ans = min(solve(cost, n - 1, dp), solve(cost, n - 2, dp));
-        int ans = solve2(cost, n);
+//        int ans = solve2(cost, n);
+        int ans = solve3(cost, n);
         return ans;
     }
 };
