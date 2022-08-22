@@ -1,4 +1,3 @@
-
 class Solution {
 public:
     int solve(vector<int>& satisfaction, int index, int dishNumber){
@@ -38,6 +37,20 @@ public:
         return dp[0][0];
     }
 
+    int solveSpaceOptimized(vector<int> &satisfaction){
+        int n = satisfaction.size();
+        vector<int> curr(n +1, 0);
+        vector<int> next(n +1 , 0);
+        for (int index = n - 1; index >= 0; --index) {
+            for (int dishNumber = index; dishNumber >= 0; --dishNumber) {
+                int include = satisfaction[index] * (dishNumber + 1) + next[dishNumber + 1];
+                int exclude = 0 + next[dishNumber];
+                curr[dishNumber] = max(include, exclude);
+            }
+            next = curr;
+        }
+        return curr[0];
+    }
 
     int maxSatisfaction(vector<int>& satisfaction) {
         int currans = 0;
@@ -47,6 +60,8 @@ public:
 
 //        return solve(satisfaction, 0, 1);
 //        return solveMem(satisfaction, 0, 1, dp);
-        return solveTab(satisfaction);
-    }
+//        return solveTab(satisfaction);
+        return solveSpaceOptimized(satisfaction);
+}
+
 };
