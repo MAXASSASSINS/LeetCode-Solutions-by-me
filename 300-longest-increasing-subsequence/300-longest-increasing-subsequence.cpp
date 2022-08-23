@@ -52,12 +52,36 @@ public:
 
     }
 
+    int solveSO(vector<int> &nums){
+        int n = nums.size();
+        vector<vector<int>> dp(n + 1, vector<int> (n + 1, 0));
+
+        vector<int> currentRow(n + 1, 0);
+        vector<int> nextRow(n + 1, 0);
+
+
+        for (int curr = n - 1; curr >= 0; --curr) {
+            for (int prev = curr - 1; prev >= -1 ; --prev) {
+                int include = 0;
+                if(prev == -1 || nums[curr] > nums[prev]){
+                    include = 1 + nextRow[curr + 1];
+                }
+
+                int exclude = 0 + nextRow[prev + 1];
+                currentRow[prev + 1] = max(include, exclude);
+            }
+            nextRow = currentRow;
+        }
+
+        return currentRow[0];
+    }
 
     int lengthOfLIS(vector<int>& nums) {
 //        return solve(nums, 0, -1);
         int n = nums.size();
         vector<vector<int>>dp (n , vector<int> (n + 1, -1));
 //        return solveMem(nums, dp, 0, -1);
-        return solveTab(nums);
+//        return solveTab(nums);
+        return solveSO(nums);
     }
 };
