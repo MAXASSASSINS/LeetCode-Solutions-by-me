@@ -46,6 +46,43 @@ public:
 
     }
 
+    int solveSO(vector<int> &slices){
+        int k = slices.size();
+
+        vector<int> prev1(k + 2, 0);
+        vector<int> curr1(k + 2, 0);
+        vector<int> next1(k + 2, 0);
+
+        vector<int> prev2(k + 2, 0);
+        vector<int> curr2(k + 2, 0);
+        vector<int> next2(k + 2, 0);
+
+
+        for (int index = k -2 ; index >= 0 ; --index) {
+            for (int slicesToEat = 1; slicesToEat <= k/3; ++slicesToEat) {
+                int include = slices[index] + next1[slicesToEat - 1];
+                int exclude = curr1[slicesToEat];
+                prev1[slicesToEat] =  max(include, exclude);
+            }
+            next1 = curr1;
+            curr1 = prev1; 
+        }
+
+        for (int index = k - 1 ; index >= 1 ; --index) {
+            for (int slicesToEat = 1; slicesToEat <= k/3; ++slicesToEat) {
+                int include = slices[index] + next2[slicesToEat - 1];
+                int exclude = curr2[slicesToEat];
+                prev2[slicesToEat] =  max(include, exclude);
+            }
+            next2 = curr2;
+            curr2 = prev2;
+        }
+
+        return max(curr1[0], curr2[1]);
+
+
+    }
+
     int maxSizeSlices(vector<int>& slices) {
         int k = slices.size();
 //        int case1 = solve(slices, 0, k - 2, k / 3);
