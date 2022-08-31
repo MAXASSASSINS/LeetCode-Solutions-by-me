@@ -64,27 +64,28 @@ public:
 
     int solveSO(vector<int> &prices){
         int n = prices.size();
-        vector<int> curr(2, 0);
-        vector<int> next(2, 0);
-        vector<vector<int>> dp(n + 1, vector<int> (2, 1));
+        vector<vector<int>> curr(2, vector<int> (3, 0));
+        vector<vector<int>> next(2, vector<int> (3, 0));
+
         for (int index = n - 1; index >= 0 ; --index) {
             for (int buy = 0; buy <= 1; ++buy) {
-                int profit = 0;
-                if (buy){
-                    int buyKaro = -prices[index] + next[0];
-                    int skipKaro = next[1];
-                    profit = max(buyKaro, skipKaro);
+                for (int limit = 1; limit <= 2; ++limit) {
+                    int profit = 0;
+                    if (buy) {
+                        int buyKaro = -prices[index] + next[0][limit];
+                        int skipKaro = next[1][limit];
+                        profit = max(buyKaro, skipKaro);
+                    } else {
+                        int sellKaro = prices[index] + next[1][limit - 1];
+                        int skipKaro = next[0][limit];
+                        profit = max(sellKaro, skipKaro);
+                    }
+                    curr[buy][limit] = profit;
                 }
-                else{
-                    int sellKaro = prices[index] + next[1];
-                    int skipKaro = next[0];
-                    profit = max(sellKaro, skipKaro);
-                }
-                curr[buy] = profit;
             }
             next = curr;
         }
-        return next[1];
+        return next[1][2];
     }
 
     int maxProfit(vector<int>& prices) {
@@ -92,7 +93,7 @@ public:
 //        return solve(prices, 1, 0, 2);
         vector<vector<vector<int>>> dp(n, vector<vector<int>> (2, vector<int> (3, -1)));
 //        return solveMem(prices, 1,   0, dp, 2);
-        return solveTab(prices);
-//        return solveSO(prices);
+//        return solveTab(prices);
+        return solveSO(prices);
     }
 };
