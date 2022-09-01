@@ -90,7 +90,7 @@ public:
         int n = prices.size();
         vector<vector<int>> dp(n + 1, vector<int> (2, -1));
 //        return solveMem(prices, 1,   0, dp, fee);
-        return solveTab(prices, fee);
-//        return solveSO(prices, fee);
+        // return solveTab(prices, fee);
+       return solveSO(prices, fee);
     }
 };
