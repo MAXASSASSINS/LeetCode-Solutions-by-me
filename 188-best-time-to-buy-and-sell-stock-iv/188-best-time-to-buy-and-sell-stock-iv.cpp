@@ -59,7 +59,7 @@ public:
                 }
             }
         }
-        return dp[0][1][2];
+        return dp[0][1][k];
     }
 
     int solveSO(int k, vector<int> &prices){
@@ -93,7 +93,7 @@ public:
 //        return solve(prices, 1, 0, 2);
         vector<vector<vector<int>>> dp(n, vector<vector<int>> (2, vector<int> (k + 1, -1)));
 //        return solveMem(prices, 1,   0, dp, k);
-//        return solveTab(k, prices);
-        return solveSO(k, prices);
+        return solveTab(k, prices);
+//        return solveSO(k, prices);
     }
 };
