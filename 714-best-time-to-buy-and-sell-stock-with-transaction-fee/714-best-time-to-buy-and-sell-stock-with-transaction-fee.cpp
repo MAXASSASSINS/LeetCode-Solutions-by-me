@@ -57,7 +57,7 @@ public:
                 dp[index][buy] = profit;
             }
         }
-        return dp[0][1];
+        return dp[0][1] - 1;
     }
 
     int solveSO(vector<int> &prices, int fee){
@@ -89,8 +89,8 @@ public:
 //        return solve(prices, 1, 0, fee);
         int n = prices.size();
         vector<vector<int>> dp(n + 1, vector<int> (2, -1));
-        return solveMem(prices, 1,   0, dp, fee);
-//        return solveTab(prices, fee);
+//        return solveMem(prices, 1,   0, dp, fee);
+        return solveTab(prices, fee);
 //        return solveSO(prices, fee);
     }
 };
