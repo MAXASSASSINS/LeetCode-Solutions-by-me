@@ -68,11 +68,38 @@ public:
         return dp[0][0];
     }
 
+    int solveSO(int k, vector<int> &prices){
+        int n = prices.size();
+        vector<vector<int>> dp(n + 1, vector<int> (2 * k + 1, 0));
+        vector<int> curr(2 * k + 1, 0);
+        vector<int> next(2 * k + 1, 0);
+
+        for (int index = n - 1; index >= 0; --index) {
+            for (int operationNo = 0; operationNo < 2 * k; ++operationNo) {
+                int ans = 0;
+                if (operationNo % 2 == 0){
+                    int buyKaro = -prices[index]  +next[operationNo + 1];
+                    int skipKaro = next[operationNo];
+                    ans = max(buyKaro, skipKaro);
+                }
+                else{
+                    int sellKaro = prices[index]  + next[operationNo + 1];
+                    int skipKaro = next[operationNo];
+                    ans = max(sellKaro, skipKaro);
+                }
+                curr[operationNo] = ans;
+            }
+            next = curr;
+        }
+        return next[0];
+    }
+
     int maxProfit(int k, vector<int>& prices) {
 //        return solve(k, prices, 0, 0);
         int n = prices.size();
         vector<vector<int>> dp(n + 1, vector<int> (2 * k, -1));
 //        return solveMem(k, prices, 0, 0, dp);
-        return solveTab(k, prices);
+//        return solveTab(k, prices);
+        return solveSO(k, prices);
     }
 };
