@@ -54,10 +54,43 @@ public:
         return dp[i][j] = ans;
     }
 
+    int solveTab(string &a, string &b){
+        int n = a.length();
+        int m = b.length();
+        vector<vector<int>> dp(n + 1, vector<int> (m + 1, 0));
+        for (int i = 0; i < m + 1; ++i) {
+            dp[n][i] = m - i;
+        }
+        for (int i = 0; i < n + 1; ++i) {
+            dp[i][m] = n - i;
+        }
+
+        for (int i = n - 1; i >= 0 ; --i) {
+            for (int j = m - 1; j >= 0; --j) {
+                int ans = 0;
+                if (a[i] == b[j]) {
+                    ans = dp[i + 1][j + 1];
+                } else {
+                    //insert
+                    int insertChar = 1 + dp[i][j + 1];
+
+                    //delete
+                    int deleteChar = 1 + dp[i + 1][j];
+
+                    //replace
+                    int replaceChar = 1 + dp[i + 1][j + 1];
+                    ans = min(insertChar, min(deleteChar, replaceChar));
+                }
+                dp[i][j] = ans;
+            }
+        }
+        return dp[0][0];
+    }
 
     int minDistance(string word1, string word2) {
 //        return solve(word1, word2, 0, 0);
-        vector<vector<int>> dp(word1.size() + 1, vector<int> (word2.size() + 1, -1));
-        return solveMem(word1,word2, 0, 0, dp);
+//        vector<vector<int>> dp(word1.size() + 1, vector<int> (word2.size() + 1, -1));
+//        return solveMem(word1,word2, 0, 0, dp);
+        return solveTab(word1, word2);
     }
 };
