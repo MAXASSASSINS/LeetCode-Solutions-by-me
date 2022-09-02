@@ -87,10 +87,52 @@ public:
         return dp[0][0];
     }
 
+    int solveSO(string &a, string &b){
+        int n = a.length();
+        int m = b.length();
+        vector<int> curr(m + 1, 0);
+        vector<int> next(m + 1, 0);
+
+        for (int i = 0; i < m + 1; ++i) {
+            next[i] = m - i;
+        }
+
+        for (int i = n - 1; i >= 0 ; --i) {
+            for (int j = m - 1; j >= 0; --j) {
+                //catch is here
+                curr[m] = n - i;
+
+
+                int ans = 0;
+                if (a[i] == b[j]) {
+                    ans = next[j + 1];
+                } else {
+                    //insert
+                    int insertChar = 1 + curr[j + 1];
+
+                    //delete
+                    int deleteChar = 1 + next[j];
+
+                    //replace
+                    int replaceChar = 1 + next[j + 1];
+                    ans = min(insertChar, min(deleteChar, replaceChar));
+                }
+                curr[j] = ans;
+            }
+            next = curr;
+        }
+        return next[0];
+    }
+
     int minDistance(string word1, string word2) {
+        if (word1.length() == 0)
+            return word2.length();
+        if (word2.length() == 0)
+            return word1.length();
 //        return solve(word1, word2, 0, 0);
 //        vector<vector<int>> dp(word1.size() + 1, vector<int> (word2.size() + 1, -1));
 //        return solveMem(word1,word2, 0, 0, dp);
-        return solveTab(word1, word2);
+//        return solveTab(word1, word2);
+        return solveSO(word1, word2);
     }
 };
