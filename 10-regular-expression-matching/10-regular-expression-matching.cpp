@@ -46,9 +46,31 @@ public:
         }
     }
 
+    bool solveTab(string &s, string &p){
+        vector<vector<int>> dp(s.length() + 1, vector<int> (p.length() + 1, 0));
+        dp[s.length()][p.length()] = 1;
+        for (int i = s.length(); i >= 0 ; --i) {
+            for (int j = p.length() - 1; j >= 0 ; --j) {
+                bool match = i < s.length() && (s[i] == p[j] || p[j] == '.');
+
+                if(j + 1 < p.length() && p[j + 1] == '*'){
+                    dp[i][j] = (match && dp[i + 1][j]) || dp[i][j + 2];
+                }
+                else if(match){
+                    dp[i][j] = dp[i + 1][j + 1];
+                }
+                else{
+                    dp[i][j] = 0;
+                }
+            }
+        }
+        return dp[0][0];
+    }
+
     bool isMatch(string s, string p) {
 //        return solve(s, p, 0, 0);
-        vector<vector<int>> dp(s.length() + 1, vector<int> (p.length() + 1, - 1));
-        return solveMem(s, p, 0, 0, dp);
+//        vector<vector<int>> dp(s.length() + 1, vector<int> (p.length() + 1, - 1));
+//        return solveMem(s, p, 0, 0, dp);
+        return solveTab(s, p);
     }
 };
