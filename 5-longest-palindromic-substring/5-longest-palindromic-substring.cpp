@@ -1,51 +1,50 @@
 class Solution {
 public:
     string longestPalindrome(string s) {
-        int maxLength = INT_MIN;
-        string ans;
-        for (int i = 0; i < s.length(); ++i) {
-            int length = 1;
-            int low = i - 1;
-            int high = i + 1;
-            while (low >= 0 && high < s.length()){
-                if (s[low] == s[high]){
-                    low--;
-                    high++;
-                    length += 2;
-                }
-                else{
-                    break;
-                }
+        
+        // edge cases
+        if(s.length() == 0 || s.length() == 1) return s;
+        
+        // to hold max len and its starting index
+        int maxLenBeginIndex = 0;
+        int maxLen = 1;
+        
+        int mid = 0;
+        while(mid < s.length()){
+            
+            // calculating middle window
+            
+            int midBegin = mid;
+            int midEnd = mid;
+            
+            // handling even length palindromes; the middlemost chars will trivially match in even length case
+            // so expand the middle window as long as possible
+            while( midEnd + 1 < s.length() && s[midEnd] == s[midEnd + 1]){ midEnd++ ; }
+            
+            // for next iteration
+            mid = midEnd + 1;
+            
+            // starting comparison in left and right windows
+            
+            // in case of odd len palindrome; both start from mid;
+            // in case of even; midBegin and midEnd handles it all
+            int leftWindow = midBegin;
+            int rightWindow = midEnd;
+            
+            // expand the windows left and right simultaneously
+            while(leftWindow - 1 >= 0 && rightWindow + 1 < s.length() && s[leftWindow - 1] == s[rightWindow + 1]){
+                    leftWindow--;
+                    rightWindow++;
             }
-            if (length > maxLength){
-                ans = s.substr(low + 1, high - low - 1);
-                maxLength = length;
+            
+            // update maxLen is currLen > maxLen
+            int currLen = rightWindow - leftWindow + 1;
+            if( currLen  > maxLen ){
+                maxLenBeginIndex = leftWindow;
+                maxLen = currLen;
             }
         }
-
-        for (int i = 1; i < s.length(); ++i) {
-            if(s[i] == s[i - 1]){
-                int low = i - 2;
-                int high =  i + 1;
-                int length = 2;
-                while (low >= 0 && high < s.length()){
-                    if (s[low] == s[high]){
-                        low--;
-                        high++;
-                        length += 2;
-                    }
-                    else{
-                        break;
-                    }
-                }
-                if (length > maxLength){
-                    ans = s.substr(low + 1, high - low - 1);
-                    maxLength = length;
-                }
-            }
-        }
-        return ans;
+        
+        return s.substr(maxLenBeginIndex, maxLen);
     }
-
-
 };
