@@ -20,10 +20,21 @@ public:
         int exclude = 0 + solveMem(nums, index + 1, dp);
         return dp[index] = max(include, exclude);
     }
+    
+    int solveTab(vector<int> &nums){
+        vector<int> dp(nums.size() + 2, 0);
+        for (int index = nums.size() - 1; index >= 0; --index) {
+            int include = nums[index] + dp[index + 2];
+            int exclude = 0 + dp[index + 1];
+            dp[index] = max(include, exclude);
+        }
+        return dp[0];
+    }
 
     int rob(vector<int>& nums) {
 //        return solve(nums, 0);
-        vector<int> dp(nums.size() + 1, -1);
-        return solveMem(nums, 0, dp);
+//        vector<int> dp(nums.size() + 1, -1);
+//        return solveMem(nums, 0, dp);
+        return solveTab(nums);
     }
 };
