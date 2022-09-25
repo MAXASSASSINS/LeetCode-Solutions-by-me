@@ -1,24 +1,24 @@
 class Solution {
 public:
     int findKthLargest(vector<int>& nums, int k) {
-	buildheap(nums);//maxheap
-	for(int i=1;i<k;++i){
-		swap(nums[0],nums.back());
-		nums.pop_back();
-		heapify(nums,0);
+	//partition rule: >=pivot   pivot   <=pivot
+	int left=0,right=nums.size()-1,idx=0;
+	while(1){
+		idx = partition(nums,left,right);
+		if(idx==k-1) break;
+		else if(idx < k-1) left=idx+1;
+		else right= idx-1;
 	}
-	return nums[0];
+	return nums[idx];
 }
-void heapify(vector<int>& nums,int i){
-	int leftIdx = (i<<1)+1, rightIdx = (i<<1)+2, largestIdx=i;
-	if(leftIdx<nums.size() && nums[leftIdx]>nums[largestIdx]) largestIdx = leftIdx;
-	if(rightIdx<nums.size() && nums[rightIdx]>nums[largestIdx]) largestIdx = rightIdx;
-	if(largestIdx!=i)
-		swap(nums[i], nums[largestIdx]), heapify(nums,largestIdx);
+int partition(vector<int>& nums,int left,int right){//hoare partition
+	int pivot = nums[left], l=left+1, r = right;
+	while(l<=r){
+		if(nums[l]<pivot && nums[r]>pivot) swap(nums[l++],nums[r--]);
+		if(nums[l]>=pivot) ++l;
+		if(nums[r]<=pivot) --r;
+	}
+	swap(nums[left], nums[r]);
+	return r;
 }
-void buildheap(vector<int>& nums){
-	//lastnodeindex = n-1, so lastParentIdx= (n-1-1)/2 = n/2-1
-	for(int i=(nums.size()>>1)-1;i>=0;--i)  heapify(nums,i);
-}
-
 };
