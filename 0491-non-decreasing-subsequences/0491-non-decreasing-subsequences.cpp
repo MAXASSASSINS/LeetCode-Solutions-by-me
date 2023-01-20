@@ -5,10 +5,9 @@ public:
             s.insert(temp);
         if(index == nums.size()) return;
         
-       
+        
         
         // exclude
-        solve(nums, s, index + 1, temp);
         
         // include
         if(temp.size() == 0){
@@ -21,6 +20,9 @@ public:
             solve(nums, s, index + 1, temp);
             temp.pop_back();
         }
+        
+        solve(nums, s, index + 1, temp);
+        
         
     }
     
