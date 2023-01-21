@@ -36,7 +36,7 @@ public:
         
         // put dot
         s.insert(index, 1, '.');
-        solve(s, ans, index + 1, count + 1);
+        solve(s, ans, index + 2, count + 1);
         s.erase(index);
         
         
