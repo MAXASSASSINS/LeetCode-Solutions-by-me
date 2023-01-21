@@ -37,10 +37,6 @@ public:
         // put dot
         s.insert(index, 1, '.');
         solve(s, ans, index + 2, count + 1);
-        s.erase(index);
-        
-        
-        
     }
     vector<string> restoreIpAddresses(string s) {
         vector<string> ans;
