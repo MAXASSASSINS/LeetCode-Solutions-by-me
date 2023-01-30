@@ -20,8 +20,6 @@ public:
             st.push(head->val);
             head = head->next;
         }
-        
-        
         while(!st.empty()){
             ListNode *temp = new ListNode(st.top());
             st.pop();
