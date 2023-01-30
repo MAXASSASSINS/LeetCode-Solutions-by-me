@@ -28,7 +28,6 @@ public:
             temp->next = ans;
             ans = temp;
         }
-        
         return ans;
     }
 };
