@@ -25,11 +25,12 @@ public:
             }
             else{
                 ListNode *start = m[sum];
+                int tmpSum = sum;
                 while(start != nullptr && start != temp){
                     start = start->next;
-                    sum += start->val;
+                    tmpSum += start->val;
                     if(start != temp)
-                        m.erase(sum);
+                        m.erase(tmpSum);
                 }
                 m[sum]->next = temp->next;
             }
