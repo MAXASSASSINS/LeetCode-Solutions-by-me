@@ -1,31 +1,24 @@
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
 class Solution {
 public:
-    vector<int> nodesBetweenCriticalPoints(ListNode* h) {
-    int first = INT_MAX, last = 0, prev_val = h->val, min_d = INT_MAX;
-    for (int i = 0; h->next != nullptr; ++i) {
-        if ((max(prev_val, h->next->val) < h->val) || 
-            (min(prev_val, h->next->val) > h->val)) {
-            if (last != 0)
-                min_d = min(min_d, i - last);
-            first = min(first, i);
-            last = i;
+    vector<int> nodesBetweenCriticalPoints(ListNode* head) {
+        ListNode *prev=head;
+        head=head->next;
+        int i=1;
+        vector<int> index;
+        while(head->next){
+            if((prev->val < head->val and head->val > head->next->val) ||( prev->val > head->val and head->val < head->next->val)){
+                index.push_back(i);
+            }
+            prev=head;
+            head=head->next;
+            i++;
         }
-        prev_val = h->val;
-        h = h->next;
+        if(index.size() < 2) return {-1,-1};
+        
+        int mindist=INT_MAX;
+        for(int i=0;i<index.size()-1;i++){
+            mindist=min(index[i+1]-index[i],mindist);
+        }
+        return {mindist,index.back()-index[0]};
     }
-    if (min_d == INT_MAX)
-        return {-1, -1};
-    return {min_d, last - first};
-}
-
 };
