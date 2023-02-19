@@ -36,11 +36,6 @@ public:
             if(!q.empty()) continue;
             
             if(vec.empty()) break;
-            
-            // if(level % 2 == 1){
-            //     reverse(vec.begin(), vec.end());
-            // }
-            
             vector<int> temp;
             for(auto x: vec){
                 temp.push_back(x->val);
