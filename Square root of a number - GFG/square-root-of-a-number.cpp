@@ -12,7 +12,18 @@ class Solution{
     long long int floorSqrt(long long int x) 
     {
         // Your code goes here
-        return sqrt(x);
+        long long int l = 1;
+        long long int h = x;
+        while(l <= h ){
+            long long int mid = l + (h - l)/2;
+            if(mid == x / mid) return mid;
+            else if(mid > x/mid){
+                h = mid - 1;
+            }
+            else l = mid + 1;
+        }
+        
+        return h;
     }
 };
 
