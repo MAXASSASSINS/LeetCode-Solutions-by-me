@@ -32,7 +32,7 @@ public:
             median = double (ans[ans.size() / 2] + ans[(ans.size() - 1) / 2]) / 2;
         else
             median = double (ans[ans.size() / 2]);
-        // cout<<"\n" << median <<"\n";
+        cout<<"\n" << median <<"\n";
         return  median;
     }
 };
