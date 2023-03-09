@@ -8,9 +8,7 @@ public:
                 return num.substr(0, i + 1);
             }
         }
-        
-        
-        
+                
         return "";
     }
 };
