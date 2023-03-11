@@ -1,40 +1,32 @@
 class Solution {
 public:
     string longestPalindrome(string s) {
-        int n = s.length();
-        bool arr[n][n];
-        
-        string t;
-        t += s[0];
-        
-        for(int gap = 0; gap < n; gap++){
-            for(int i = 0, j = gap; j < n; i++, j++){
-                if(gap == 0){
-                    arr[i][j] = true;
-                }
-                else if(gap == 1){
-                    if(s[i] == s[j]){
-                        arr[i][j] = true;
-                    }
-                    else{
-                        arr[i][j] = false;
-                    }
-                }
-                else{
-                    if(s[i] == s[j] && arr[i + 1][j - 1] == true){
-                        arr[i][j] = true;
-                    }
-                    else{
-                        arr[i][j] = false;
-                    }
-                }
-                if(arr[i][j] == true && t.length() < gap + 1){
-                    t = s.substr(i, j + 1 - i); 
-                }
-            }
+        int ans = 0;
+        string res;
+        for(int i = 0; i < s.length(); i++){
+            string odd = expand(s, i, i);
+            string even = expand(s, i, i + 1);
+            getMaxLengthPalindromicSubstring(odd, ans, res);
+            getMaxLengthPalindromicSubstring(even, ans, res);
         }
         
-        return t;
+        return res;
+    }
+    
+    string expand(string s, int l, int r){
+        while(l >= 0 && r < s.length()){
+            if(s[l] != s[r]) break;
+            l--;
+            r++;
+        }
         
+        return s.substr(l + 1, r - l - 1);
+    }
+    
+    void getMaxLengthPalindromicSubstring(string s, int &ans, string &res){
+        if(s.length() > ans){
+            ans = s.length();
+            res = s;
+        }
     }
 };
