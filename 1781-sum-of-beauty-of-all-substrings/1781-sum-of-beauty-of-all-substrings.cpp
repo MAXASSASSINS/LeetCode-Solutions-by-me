@@ -1,35 +1,20 @@
 class Solution {
 public:
     int beautySum(string s) {
-        // support variables
-        int res = 0, chars[123] = {};
-        multiset<int> ms, tmpMs;
-        // computing the frequencies of all the characters in s
-        for (char c: s) chars[c]++;
-        // populating ms initially
-        for (int i = 'a'; i <= 'z'; i++) if (chars[i]) ms.insert(chars[i]);
-        for (int i = 0, currFreq, lmtI = s.size() - 2, ed = s.size() - 1; i < lmtI; i++) {
-            // removing the character before i, if any
-            if (i) {
-                currFreq = --chars[s[i - 1]];
-                ms.erase(ms.find(currFreq + 1));
-                if (currFreq) ms.insert(currFreq);
+    int res = 0;
+    for (auto i = 0; i < s.size(); ++i) {
+        int cnt[26] = {}, max_f = 0, min_f = 0;
+        for (auto j = i; j < s.size(); ++j) {
+            int idx = s[j] - 'a';
+            max_f = max(max_f, ++cnt[idx]);
+            if (min_f >= cnt[idx] - 1) {
+                min_f = cnt[idx];
+                for (int k = 0; k < 26; ++k)
+                    min_f = min(min_f, cnt[k] == 0 ? INT_MAX : cnt[k]);
             }
-            tmpMs = ms;
-            for (int j = ed, lmtJ = i + 1; j > lmtJ; j--) {
-                // removing the character before i, if any
-                if (j != ed) {  
-                    currFreq = --chars[s[j + 1]];
-                    ms.erase(ms.find(currFreq + 1));
-                    if (currFreq) ms.insert(currFreq);
-                }
-                // increasing res with the difference of extreme frequencies
-                res += *rbegin(ms) - *begin(ms);
-            }
-            // restoring chars and ms
-            for (int j = ed - 1, lmtJ = i + 1; j > lmtJ; j--) ++chars[s[j + 1]];
-            ms = tmpMs;
+            res += max_f - min_f;
         }
-        return res;
     }
+    return res;
+}
 };
