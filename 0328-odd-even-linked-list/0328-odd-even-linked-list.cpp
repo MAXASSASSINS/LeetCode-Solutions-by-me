@@ -17,25 +17,12 @@ public:
         ListNode* odd = oddHead;
         ListNode* even = evenHead;
         
-        bool flag = false;
-        while(odd && even){
-            if(!flag){
-                flag = true;
-                odd->next = even->next;
-                odd = even->next;
-            }
-            else{
-                flag = false;
-                even->next = odd->next;
-                even = odd->next;
-            }
-        }
         
-        if(!odd){
-            odd = oddHead;
-            while(odd->next != nullptr){
-                odd = odd->next;
-            }
+        while(even && even->next){
+            odd->next = even->next;
+            odd = odd->next;
+            even->next = odd->next;
+            even = even->next;
         }
         
         odd->next = evenHead;
