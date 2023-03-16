@@ -1,27 +1,15 @@
 class Solution {
 public:
-    TreeNode* rec(int l, int r) {
-        if (l > r) return NULL;
-        
-        int i = 0;
-        while (m_inorder[i] != m_postorder[m_curr]) {
-            i++;
-        }
-        
-        m_curr--;
-        TreeNode* node = new TreeNode(m_inorder[i]);
-        node->right = rec(i+1, r);
-        node->left = rec(l, i-1);
+    TreeNode *Tree(vector<int>& in, int x, int y,vector<int>& po,int a,int b){
+        if(x > y || a > b)return nullptr;
+        TreeNode *node = new TreeNode(po[b]);
+        int SI = x;  
+        while(node->val != in[SI])SI++;
+        node->left  = Tree(in,x,SI-1,po,a,a+SI-x-1);
+        node->right = Tree(in,SI+1,y,po,a+SI-x,b-1);
         return node;
-        
     }
-    
-    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
-        m_postorder = postorder, m_inorder = inorder, m_curr = inorder.size()-1;
-        return rec(0, postorder.size()-1);
+    TreeNode* buildTree(vector<int>& in, vector<int>& po){
+        return Tree(in,0,in.size()-1,po,0,po.size()-1);
     }
-    
-private:
-    int m_curr;
-    vector<int> m_postorder, m_inorder;
 };
