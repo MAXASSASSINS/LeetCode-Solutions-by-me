@@ -1,30 +1,56 @@
 class Solution {
 public:
-    int answer = -1;
-
-    void dfs(int node, vector<int>& edges, unordered_map<int, int>& dist, vector<bool>& visit) {
-        visit[node] = true;
-        int neighbor = edges[node];
-
-        if (neighbor != -1 && !visit[neighbor]) {
-            dist[neighbor] = dist[node] + 1;
-            dfs(neighbor, edges, dist, visit);
-        } else if (neighbor != -1 && dist.count(neighbor)) {
-            answer = max(answer, dist[node] - dist[neighbor] + 1);
-        }
-    }
-
     int longestCycle(vector<int>& edges) {
         int n = edges.size();
         vector<bool> visit(n);
+        vector<int> indegree(n);
 
-        for (int i = 0; i < n; i++) {
-            if (!visit[i]) {
-                unordered_map<int, int> dist;
-                dist[i] = 1;
-                dfs(i, edges, dist, visit);
+        // Count indegree of each node.
+        for (int edge : edges) {
+            if (edge != -1) {
+                indegree[edge]++;
             }
         }
+
+        // Kahn's algorithm starts.
+        queue<int> q;
+        for (int i = 0; i < n; i++) {
+            if (indegree[i] == 0) {
+                q.push(i);
+            }
+        }
+
+        while (!q.empty()) {
+            int node = q.front();
+            q.pop();
+
+            visit[node] = true;
+            int neighbor = edges[node];
+            if (neighbor != -1) {
+                indegree[neighbor]--;
+                if (indegree[neighbor] == 0) {
+                    q.push(neighbor);
+                }
+            }
+        }
+        // Kahn's algorithm ends.
+
+        int answer = -1;
+        for (int i = 0; i < n; i++) {
+            if (!visit[i]) {
+                int neighbor = edges[i];
+                int count = 1;
+                visit[i] = true;
+                // Iterate in the cycle.
+                while (neighbor != i) {
+                    visit[neighbor] = true;
+                    count++;
+                    neighbor = edges[neighbor];
+                }
+                answer = max(answer, count);
+            }
+        }
+
         return answer;
     }
 };
