@@ -14,7 +14,6 @@ public:
             return;
         }
         for(int i = index; i < s.length(); i++){
-            // partitioning
             if(isPalindrome(s, index, i)){
                 temp.push_back(s.substr(index, i - index + 1));
                 solve(s, ans, temp, i + 1);
