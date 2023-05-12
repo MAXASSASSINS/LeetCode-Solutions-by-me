@@ -26,10 +26,33 @@ public:
         // return 0;
     }
     
+    long long solveTab(vector<vector<int>>& questions){
+        int n = questions.size();
+        vector<long long> dp(n + 1);
+        
+        dp[n] = 0;
+        
+        for(int index = n - 1; index >= 0; index--){
+            long long excl = dp[index + 1];
+            int idx = index + questions[index][1] + 1;
+            if(idx >= n){
+                idx = n;
+            }
+            long long incl = questions[index][0] + dp[idx];
+            
+            dp[index] = max(excl, incl);
+        }
+        
+        return dp[0];
+        
+    }
+    
     long long mostPoints(vector<vector<int>>& questions) {
         // return solve(questions, 0);
         
-        vector<long long> dp(questions.size() + 1, -1);
-        return solveMem(questions, 0, dp);
+        // vector<long long> dp(questions.size() + 1, -1);
+        // return solveMem(questions, 0, dp);
+        
+        return solveTab(questions);
     }
 };
