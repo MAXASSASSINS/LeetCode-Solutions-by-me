@@ -94,13 +94,6 @@ int MyQueue :: pop()
     // Your Code   
     if(!front) return -1;
     QueueNode *temp = front;
-    if(front == rear){
-        front = nullptr;
-        rear = nullptr;
-        temp->next = nullptr;
-        return temp->data;
-    }
-
     front = front->next;
     temp->next = nullptr;
     
