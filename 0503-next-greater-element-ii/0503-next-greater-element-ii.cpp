@@ -4,7 +4,7 @@ public:
         stack<int> st;
         
         int n = nums.size();
-        vector<int> ans(2*n);
+        vector<int> ans(n);
         
         for(int i = 2*n - 1; i >= 0; i--){
             int num = nums[i % n];
@@ -12,11 +12,11 @@ public:
                 st.pop();
             }
             
-            ans[i] = st.empty() ? -1 : st.top();
+            ans[i % n] = st.empty() ? -1 : st.top();
             st.push(num);
         }
         
-        ans.resize(n);
+        // ans.resize(n);
         
         return ans;
         
