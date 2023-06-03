@@ -5,18 +5,26 @@ public:
         int n2 = nums2.size();
         vector<int> ans;
         
-        for(auto num: nums1){
-            bool found = false;
-            int ng = -1;
-            for(auto x: nums2){
-                if(found && x > num) {
-                    ng = x;
-                    break;
-                }
-                if(x == num) found = true;
+        
+        vector<int> temp(10001);
+        
+        stack<int> st;
+        
+        for(int i = n2 - 1; i >= 0; i--){
+            int num = nums2[i];
+            while(!st.empty() && st.top() <= num){
+                st.pop();
             }
-            ans.push_back(ng);   
+            temp[num] = st.empty() ? -1 : st.top();
+            st.push(num);
         }
+        
+        
+        for(auto num: nums1){
+            ans.push_back(temp[num]);
+        }
+        
+        
         
         return ans;
     }
