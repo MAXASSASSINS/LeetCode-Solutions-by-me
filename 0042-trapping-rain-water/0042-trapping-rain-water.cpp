@@ -3,27 +3,36 @@ public:
     int trap(vector<int>& height) {
         int n = height.size();
         
-        int preMax[n];
-        int suffMax[n];
+        int lmax = height[0];
+        int rmax = height[n - 1];
         
-        preMax[0] = height[0];
-        suffMax[n - 1] = height[n - 1];
+        int l = 0;
+        int r = n - 1;
         
-        for(int i = 1; i < n; i++){
-            preMax[i] = max(preMax[i - 1], height[i]);
+        int res = 0;
+        
+        
+        while(l < r){
+            if(height[l] <= height[r]){
+                if(height[l] > lmax){
+                    lmax = height[l];
+                }
+                else{
+                    res += lmax - height[l];
+                }
+                l++;
+            }
+            else{
+                if(height[r] > rmax){
+                    rmax = height[r];
+                }
+                else{
+                    res += rmax - height[r];
+                }
+                r--;
+            }
         }
         
-        for(int i = n - 2; i >= 0; i--){
-            suffMax[i] = max(suffMax[i + 1], height[i]);
-        }
-        
-        
-        int ans = 0;
-        for(int i = 1; i < n - 1; i++){
-            ans += min(preMax[i], suffMax[i]) - height[i];
-        }
-        
-        
-        return ans;
+        return res;
     }
 };
