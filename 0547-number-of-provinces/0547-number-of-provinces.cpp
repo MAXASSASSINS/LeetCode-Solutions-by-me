@@ -18,6 +18,17 @@ public:
         }
         
     }
+    
+    void dfs(vector<int> adj[], vector<bool> &visited, int node){
+        visited[node] = true;
+        
+        for(auto x: adj[node]){
+            if(!visited[x]){
+                dfs(adj, visited, x);
+            }
+        }
+    }
+    
     int findCircleNum(vector<vector<int>>& isConnected) {
         int n = isConnected.size();
         vector<int> adj[n];
@@ -36,7 +47,7 @@ public:
         for(int i = 0; i < n; i++){
             if(!visited[i]){
                 ans++;
-                bfs(adj, visited, i);
+                dfs(adj, visited, i);
             }
         }
         
