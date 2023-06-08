@@ -14,34 +14,23 @@ class Solution
     int celebrity(vector<vector<int> >& M, int n) 
     {
         // code here 
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < n; j++){
-                if(M[i][j] == 1 && M[j][i] != 1){
-                    M[j][i] = 2;
-                }
+        int a = 0;
+        int b = n - 1;
+        while(a != b){
+            if(M[a][b] == 0){
+                b--;
+            }
+            else{
+                a++;
             }
         }
         
-        int celebs = -1;
-        
         for(int i = 0; i < n; i++){
-            bool found = true;
-            for(int j = 0; j < n; j++){
-                if(M[i][j] == 1){
-                    found = false;
-                    break;
-                }
-                if(M[i][j] == 0 && i != j){
-                    found = false;
-                    break;
-                }
-            }
-            if(found){
-                celebs = i;
-            }
+            if(M[a][i] == 1) return -1;
+            if(M[i][a] == 0 && i != a) return -1;
         }
         
-        return celebs;
+        return a;
         
     }
 };
