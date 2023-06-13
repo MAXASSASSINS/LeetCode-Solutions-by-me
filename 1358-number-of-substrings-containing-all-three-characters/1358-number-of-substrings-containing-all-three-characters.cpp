@@ -1,20 +1,26 @@
 class Solution {
 public:
     int numberOfSubstrings(string s) {
-        int i = 0; 
-        int j = 0;
-        int ans = 0;
+        // O(N) time , O(1) space [because hasmap size is always 3]
+        int left = 0 , right = 0 , end = s.size() - 1;
+        unordered_map<char,int> map;
         
-        vector<int> vec(3, 0);
-        for(j = 0; j < s.length(); j++){
-            vec[s[j] - 'a']++;
-            while(vec[0] > 0 && vec[1] > 0 && vec[2] > 0 && i <= j){
-                vec[s[i] - 'a']--;
-                ans += s.length() - j;
-                i++;
+        int count = 0;
+        
+        while(right != s.size())
+        {
+            map[s[right]] += 1; // adding new element to window
+            
+            while(map['a'] and map['b'] and map['c']) // while(window is good)
+            {
+                count += 1 + (end - right);
+                
+				// removing first element[means shrinking window from front to form new window]
+                map[s[left]] -= 1; 
+                left++;
             }
+            right++;
         }
-        
-        return ans;
+        return count;
     }
 };
