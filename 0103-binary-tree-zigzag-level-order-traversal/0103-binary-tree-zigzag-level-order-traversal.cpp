@@ -22,26 +22,18 @@ public:
         while(!q.empty()){
             int s = q.size();
             
-            vector<int> temp;
-            if(!rev){
-                for(int i = 0; i < s; i++){
+            vector<int> temp(q.size());
+            
+            for(int i = 0; i < s; i++){
                     TreeNode* node = q.front();
                     q.pop_front();
                     if(node->left) q.push_back(node->left);
                     if(node->right) q.push_back(node->right);
 
-                    temp.push_back(node->val);
-                }
+                    int index = rev ? s - 1 - i : i;
+                    temp[index] = node->val;
             }
-            else{
-                for(int i = 0; i < s; i++){
-                    TreeNode* node = q.back();
-                    q.pop_back();
-                    if(node->right) q.push_front(node->right);
-                    if(node->left) q.push_front(node->left);
-                    temp.push_back(node->val);
-                }
-            }
+            
             
             ans.push_back(temp);
             rev = !rev;
