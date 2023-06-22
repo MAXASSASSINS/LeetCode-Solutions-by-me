@@ -9,7 +9,7 @@ class Solution {
         int lHeight = height(root->left);
         int rHeight = height(root->right);
 
-        ans= max(ans, 1 + lHeight + rHeight);
+        ans= max(ans, lHeight + rHeight);
         return 1+ max( lHeight , rHeight);
 
     }
@@ -17,6 +17,6 @@ class Solution {
     int diameterOfBinaryTree(TreeNode* root) {
         if(!root) return 0;
         height(root);
-        return ans-1;
+        return ans;
     }
 };
