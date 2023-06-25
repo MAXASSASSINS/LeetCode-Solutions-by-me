@@ -146,37 +146,41 @@ class Solution {
         unordered_map<Node *, bool> visited;
         queue<Node *> q2;
         q2.push(targetNode);
+        visited[targetNode] = true;
         
         int ans = 0;
         
         while(!q2.empty()){
             
             int size = q2.size();
-            
+            bool burnt = false;
             for(int i = 0; i < size; i++){
                 Node *node = q2.front();
                 q2.pop();
                 
                 if(node->left && !visited[node->left]){
+                    burnt = true;
                     q2.push(node->left);
                     visited[node->left] = true;
                 }
                 
                 if(node->right && !visited[node->right]){
+                    burnt = true;
                     q2.push(node->right);
                     visited[node->right] = true;
                 }
                 
                 if(parent_track[node] && !visited[parent_track[node]]){
+                    burnt = true;
                     q2.push(parent_track[node]);
                     visited[parent_track[node]] = true;
                 }
             }
             
-            ans++;
+            if(burnt) ans++;
         }
         
-        return ans - 1;
+        return ans ;
     }
 };
 
