@@ -11,28 +11,19 @@
  */
 class Solution {
 public:
-    int preInd=0;
-TreeNode *buildTree(vector<int> &preorder, vector<int> &inorder) {
-    return createTree(preorder,inorder,0,inorder.size() - 1);
-}
-TreeNode* createTree(vector<int>& preorder, vector<int>& inorder,int start, int end){
-    if(start > end){
-        return NULL;
-    }
-    TreeNode* node=new TreeNode(preorder[preInd++]);
-    int pos;
-    for(int i=start;i<=end;i++){
-        if(inorder[i]==node->val){
-            pos=i;
-            break;
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        unordered_map<int, int> m;
+        
+        for(int i = 0; i < inorder.size(); i++){
+            m[inorder[i]] = i;
         }
+        
+        TreeNode *ans = buildTree(preorder, 0, preorder.size() - 1, inorder, 0, inorder.size() - 1, m);
+        
+        return ans;
     }
-    node->left =createTree(preorder, inorder,start,pos-1);
-    node->right =createTree(preorder, inorder, pos+1,end);
-    return node;
-}
     
-    TreeNode* buildTree(vector<int>& preorder, int preStart, int preEnd, vector<int>& inorder, int inStart, int inEnd, unordered_map<int, int> m){
+    TreeNode* buildTree(vector<int>& preorder, int preStart, int preEnd, vector<int>& inorder, int inStart, int inEnd, unordered_map<int, int> &m){
         
         if(preStart > preEnd || inStart > inEnd) return nullptr;
         
