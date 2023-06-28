@@ -8,62 +8,50 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
+
+class cmp{
+    public:
+  bool operator() (ListNode* a, ListNode *b){
+      return a->val > b->val;
+  }  
+};
+
 class Solution {
 public:
-    ListNode *mergeTwoLists(ListNode *list1, ListNode *list2) {
-        if (list1 == nullptr)
-            return list2;
-        if (list2 == nullptr)
-            return list1;
-        ListNode *head1 = list1, *head2 = list2, *prev1 = nullptr, *prev2 = nullptr;
-        ListNode *head;
-        if (list1->val <= list2->val) {
-            head = list1;
-            prev1 = head1;
-            head1 = head1->next;
-        }
-        if (list1->val > list2->val) {
-            head = list2;
-            prev2 = head2;
-            head2 = head2->next;
-        }
-        while (head1 != nullptr && head2 != nullptr) {
-            if (head1->val <= head2->val) {
-                if (prev2 != nullptr) {
-                    prev2->next = head1;
-                    prev2 = nullptr;
-                }
-                prev1 = head1;
-                head1 = head1->next;
-            } else {
-                if (prev1 != nullptr) {
-                    prev1->next = head2;
-                    prev1 = nullptr;
-                }
-                prev2 = head2;
-                head2 = head2->next;
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        if(lists.size() == 0) return nullptr;
+        
+        priority_queue<ListNode*, vector<ListNode*>, cmp> pq;
+        
+        for(int i = 0; i < lists.size(); i++){
+            if(lists[i] != nullptr){   
+                pq.push(lists[i]);
+                // lists[i] = lists[i]->next;
             }
         }
-        if (head1 != nullptr) {
-            prev2->next = head1;
+        
+        ListNode *dummy = new ListNode(-1);
+        ListNode *tail = dummy;
+        
+        while(!pq.empty()){
+            auto node = pq.top();
+            pq.pop();
+            
+            if(node->next){
+                pq.push(node->next);
+            }
+            
+            tail->next = new ListNode(node->val);
+            tail = tail->next;
         }
-        if (head2 != nullptr) {
-            prev1->next = head2;
-        }
-        return head;
-    }
-
-    ListNode* mergeKLists(vector<ListNode*>& lists) {
-        if(lists.size() == 0){
-            return nullptr;
-        }
-        if(lists.size() == 1){
-            return lists.at(0);
-        }
-        ListNode *ans = mergeTwoLists(lists.at(0), lists.at(1)); 
-        for (int i = 2; i < lists.size(); ++i) {
-            ans = mergeTwoLists(ans, lists.at(i));
-        }
-        return ans;
+        
+        
+        return dummy->next;
+        
+        
+        
+        
+        
+        
     }
 };
