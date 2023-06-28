@@ -19,14 +19,13 @@ class cmp{
 class Solution {
 public:
     ListNode* mergeKLists(vector<ListNode*>& lists) {
-        if(lists.size() == 0) return nullptr;
+        // if(lists.size() == 0) return nullptr;
         
         priority_queue<ListNode*, vector<ListNode*>, cmp> pq;
         
         for(int i = 0; i < lists.size(); i++){
             if(lists[i] != nullptr){   
                 pq.push(lists[i]);
-                // lists[i] = lists[i]->next;
             }
         }
         
