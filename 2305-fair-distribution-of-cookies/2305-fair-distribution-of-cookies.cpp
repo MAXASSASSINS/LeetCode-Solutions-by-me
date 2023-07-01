@@ -1,25 +1,38 @@
 class Solution {
 public:
-    int solve(vector<int> &cookies, int k, int index, vector<int> &dis){
-        if(index >= cookies.size()){
-            auto it = max_element(dis.begin(), dis.end());
-            return *it;
+    int dfs(int i, vector<int>& distribute, vector<int>& cookies, int k, int zeroCount) {
+        // If there are not enough cookies remaining, return INT_MAX 
+        // as it leads to an invalid distribution.
+        if (cookies.size() - i < zeroCount) {
+            return INT_MAX;
+        }
+
+        // After distributing all cookies, return the unfairness of this
+        // distribution.
+        if (i == cookies.size()) {
+            return *max_element(distribute.begin(), distribute.end());
+        }
+
+        // Try to distribute the i-th cookie to each child, and update answer
+        // as the minimum unfairness in these distributions.
+        int answer = INT_MAX;
+        for (int j = 0; j < k; ++j) {
+            zeroCount -= distribute[j] == 0 ? 1 : 0;
+            distribute[j] += cookies[i];
+            
+            // Recursively distribute the next cookie.
+            answer = min(answer, dfs(i + 1, distribute, cookies, k, zeroCount)); 
+            
+            distribute[j] -= cookies[i];
+            zeroCount += distribute[j] == 0 ? 1 : 0;
         }
         
-        int ans = INT_MAX;
-        
-        for(int i = 0; i < k; i++){
-            dis[i] += cookies[index];
-            ans = min(ans, solve(cookies, k, index + 1, dis));
-            dis[i] -= cookies[index];
-        }
-        
-        return ans; 
+        return answer;
     }
     
-    
     int distributeCookies(vector<int>& cookies, int k) {
-        vector<int> dis(k);
-        return solve(cookies, k, 0, dis);
+        vector<int> distribute(k, 0);
+
+        return dfs(0, distribute, cookies, k, k);
     }
 };
