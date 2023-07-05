@@ -7,7 +7,7 @@ public:
         
         for(auto it: adj[node]){
             if(!visited[it]){
-                if(dfs(adj, visited, pathVisited, it, ans)) return true;;
+                if(dfs(adj, visited, pathVisited, it, ans)) return true;
             }
             else if(pathVisited[it]) return true;
         }
