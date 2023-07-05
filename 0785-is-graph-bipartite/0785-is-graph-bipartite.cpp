@@ -22,6 +22,23 @@ public:
         return true;
     }
     
+    bool dfs(vector<vector<int>>& graph, vector<int> &color, int st, int clr){
+        color[st] = clr;
+        
+        int ans = true;
+        
+        for(auto v: graph[st]){
+            if(color[v] == -1){
+                ans = ans && dfs(graph, color, v, !clr);
+            }
+            else if(color[v] == clr){
+                ans = false;
+            }
+        }
+        
+        return ans;
+    }
+    
     
     bool isBipartite(vector<vector<int>>& graph) {
         int n = graph.size();
@@ -29,7 +46,7 @@ public:
         
         for(int i = 0; i < n; i++){
             if(color[i] == -1){
-                if(bfs(graph, color, i) == false) return false;       
+                if(dfs(graph, color, i, 0) == false) return false;       
             }
         }        
 
