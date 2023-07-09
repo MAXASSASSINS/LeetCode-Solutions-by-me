@@ -1,38 +1,44 @@
 class Solution {
 public:
+    
+    
+    
     int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
-        // edge case: start or end not accessible
-        if (grid[0][0] || grid.back().back()) return -1;
-        // support variables
-        int res = 2, len = 1, maxX = grid[0].size() - 1, maxY = grid.size() - 1;
-        queue<pair<int, int>> q;
-        // edge case: single cell matrix
-        if (!maxX && !maxY) return 1 - (grid[0][0] << 1);
-        // adding the starting point
-        q.push({0, 0});
-        // marking start as visited
-        grid[0][0] = -1;
-        while (len) {
-            while (len--) {
-                // reading and popping the coordinates on the front of the queue
-                auto [cx, cy] = q.front();
-                q.pop();
-                for (int x = max(0, cx - 1), lmtX = min(cx + 1, maxX); x <= lmtX; x++) {
-                    for (int y = max(0, cy - 1), lmtY = min(cy + 1, maxY); y <= lmtY; y++) {
-                        // check if we reached the target
-                        if (x == maxX && y == maxY) return res;
-                        // marking it as visited and adding it to the q if it was still a valid cell
-                        if (!grid[y][x]) {
-                            grid[y][x] = -1;
-                            q.push({x, y});
-                        }
+        if(grid[0][0] == 1) return -1;
+        
+        int n = grid.size();
+        vector<vector<int>> dis(n, vector<int>(n, INT_MAX));
+        
+        queue<vector<int>> q;
+        q.push({0,0,1});
+        dis[0][0] = 1;
+        
+        while(!q.empty()){
+            auto vec = q.front();
+            q.pop();
+            
+            int row = vec[0];
+            int col = vec[1];
+            int dist = vec[2];
+            
+            for(int i = -1; i <= 1; i++){
+                for(int j = -1; j <= 1; j++){
+                    int new_row = row + i;
+                    int new_col = col + j;
+                    
+                    if(new_row < n && new_col < n && new_row > -1 && new_col > -1 && grid[new_row][new_col] == 0 && dis[new_row][new_col] > dist + 1){
+                        q.push({new_row, new_col, dist + 1});
+                        dis[new_row][new_col] = dist + 1;
                     }
+                    
                 }
             }
-            // preparing for the next loop
-            res++;
-            len = q.size();
         }
-        return -1;
+        
+        
+        
+        if(dis[n - 1][n - 1] == INT_MAX) return -1;
+        
+        return dis[n - 1][n - 1];
     }
 };
