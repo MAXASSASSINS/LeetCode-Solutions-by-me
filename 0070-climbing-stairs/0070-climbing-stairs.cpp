@@ -27,13 +27,27 @@ public:
         return dp[n];
     }
     
+    
+    int spaceOptimise(int n){
+        int a = 1, b = 1;
+        
+        for(int i = 2; i <= n; i++){
+            int temp = a + b;
+            b = a;
+            a = temp;
+        }
+            
+        return a;
+    }
+    
     int climbStairs(int n) {
         // return solve(n);
         
         // vector<int> dp(n + 1, -1);
         // return solveMem(n, dp);
         
-        return solveTab(n);
+        // return solveTab(n);
+        return spaceOptimise(n);
 
     }
 };
