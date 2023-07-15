@@ -24,7 +24,6 @@ public:
     
     
     int findNext(vector<vector<int>> &events, int st, int en, int target){
-        
         while(st <= en){
             int mid = st + (en - st)/2;
             int val = events[mid][0];
@@ -53,12 +52,18 @@ public:
         int endTime = events[idx][1];
         int value = events[idx][2];
         
-        int i;
-        for(i = idx + 1; i < events.size(); i++){
-            if(events[i][0] > endTime){
-                break;
-            }
-        }
+        
+        /* Linear search */
+        // int i;
+        // for(i = idx + 1; i < events.size(); i++){
+        //     if(events[i][0] > endTime){
+        //         break;
+        //     }
+        // }
+        
+        
+        int i = findNext(events, idx + 1, events.size() - 1, endTime);
+        
         include = value + solveMem(events, k - 1, i, endTime, dp);
         
         return dp[idx][k] = max(include, exclude);
