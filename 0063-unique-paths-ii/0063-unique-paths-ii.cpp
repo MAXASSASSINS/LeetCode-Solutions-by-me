@@ -42,21 +42,23 @@ public:
         
     }
     
-    int spaceOptimisation(int m, int n){
+    int spaceOptimisation(int m, int n, vector<vector<int>>& obstacleGrid){
         vector<int> prev(n);
         
-        prev[0] = 1;
+
         
         for(int i = 0; i < m; i++){
             vector<int> curr(n);
             for(int j = 0; j < n; j++){
                 if(i == 0 && j == 0){
-                    curr[j] = 1;
-                    continue;
+                    curr[0] = 1;
                 }
-                int left = j > 0 ? curr[j - 1] : 0;
-                int top = i > 0 ? prev[j] : 0;
-                curr[j] = left + top;
+                else{
+                    int left = isValid(i, j - 1, obstacleGrid) ? curr[j - 1] : 0;
+                    int top = isValid(i - 1, j, obstacleGrid) ? prev[j] : 0;
+                    curr[j] = left + top;
+                }
+                
             }
             
             prev = curr;
@@ -77,6 +79,8 @@ public:
         // vector<vector<int>> dp(m, vector<int>(n, -1));
         // return solveMem(m - 1, n - 1, obstacleGrid, dp);
         
-        return solveTab(m, n, obstacleGrid);
+        // return solveTab(m, n, obstacleGrid);
+        
+        return spaceOptimisation(m, n, obstacleGrid);
     }   
 };
