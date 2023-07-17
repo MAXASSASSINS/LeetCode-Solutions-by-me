@@ -21,17 +21,20 @@ public:
         return dp[m][n] = left + top;
     }
     
-    int solveTab(int m, int n){
+    int solveTab(int m, int n, vector<vector<int>>& obstacleGrid){
         vector<vector<int>> dp(m, vector<int>(n));
         
-        dp[0][0] = 1;
         
         for(int i = 0; i < m; i++){
             for(int j = 0; j < n; j++){
-                if(i == 0 && j == 0) continue;
-                int left = j > 0 ? dp[i][j - 1] : 0;
-                int top = i > 0 ? dp[i - 1][j] : 0;
-                dp[i][j] = left + top;
+                if(i == 0 && j == 0){
+                    dp[0][0] = 1;
+                }
+                else{
+                    int left = isValid(i, j - 1, obstacleGrid) ? dp[i][j - 1] : 0;
+                    int top = isValid(i - 1, j , obstacleGrid) ? dp[i - 1][j] : 0;
+                    dp[i][j] = left + top;
+                }
             }
         }
         
@@ -71,7 +74,9 @@ public:
         
         // return solve(m - 1, n - 1, obstacleGrid);
         
-        vector<vector<int>> dp(m, vector<int>(n, -1));
-        return solveMem(m - 1, n - 1, obstacleGrid, dp);
+        // vector<vector<int>> dp(m, vector<int>(n, -1));
+        // return solveMem(m - 1, n - 1, obstacleGrid, dp);
+        
+        return solveTab(m, n, obstacleGrid);
     }   
 };
