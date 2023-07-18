@@ -20,13 +20,35 @@ public:
         return dp[i][j] = min(below, adj);
     }
     
+    int solveTab(vector<vector<int>> &triangle){
+        int n = triangle.size();
+        vector<vector<int>> dp(n, vector<int>(n));
+        
+        for(int i = 0; i < n; i++){
+            dp[n - 1][i] = triangle[n - 1][i];
+        }
+        
+        for(int i = n - 2; i >= 0; i--){
+            for(int j = i; j >= 0; j--){
+                int below = triangle[i][j] + dp[i + 1][j];
+                int adj = triangle[i][j] + dp[i + 1][j + 1];
+                dp[i][j] = min(below, adj);
+            }
+        }
+        
+        return dp[0][0];
+        
+    }
+    
     int minimumTotal(vector<vector<int>>& triangle) {
         int n = triangle.size();
         // return solve(triangle, 0, 0, n);
         
         vector<vector<int>> dp(n, vector<int>(n, -1));
         
-        return solveMem(triangle, 0, 0, n, dp);
+        // return solveMem(triangle, 0, 0, n, dp);
+        
+        return solveTab(triangle);
         
         
     }
