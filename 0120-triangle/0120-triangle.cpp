@@ -40,6 +40,27 @@ public:
         
     }
     
+    int spaceOptimisation(vector<vector<int>> &triangle){
+        int n = triangle.size();
+        vector<int> prev(n);
+        
+        for(int i = 0; i < n; i++){
+            prev[i] = triangle[n - 1][i];
+        }
+        
+        for(int i = n - 2; i >= 0; i--){
+            vector<int> curr(n);
+            for(int j = i; j >= 0; j--){
+                int below = triangle[i][j] + prev[j];
+                int adj = triangle[i][j] + prev[j + 1];
+                curr[j] = min(below, adj);
+            }
+            prev = curr;
+        }
+        
+        return prev[0];
+    }
+    
     int minimumTotal(vector<vector<int>>& triangle) {
         int n = triangle.size();
         // return solve(triangle, 0, 0, n);
@@ -48,7 +69,9 @@ public:
         
         // return solveMem(triangle, 0, 0, n, dp);
         
-        return solveTab(triangle);
+        // return solveTab(triangle);
+        
+        return spaceOptimisation(triangle);
         
         
     }
