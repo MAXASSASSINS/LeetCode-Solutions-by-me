@@ -64,6 +64,40 @@ public:
         return ans;
     }
     
+    int spaceOptimisation(vector<vector<int>> &mat){
+        int n = mat.size();
+        vector<int> prev(n);
+        
+        for(int col = 0; col < n; col++){
+            prev[col] = mat[0][col];
+        }
+        
+        for(int row = 1; row < n; row++){
+            vector<int> curr(n);
+            for(int col = 0; col < n; col++){
+                int lDiag = mat[row][col];
+                int rDiag = mat[row][col];
+                int top = mat[row][col] + prev[col];
+                
+                if(col > 0) lDiag += prev[col - 1];
+                else lDiag += 1e6;
+                
+                
+                if(col + 1 < n) rDiag += prev[col + 1];
+                else rDiag += 1e6;
+                
+                curr[col] = min(lDiag, min(top, rDiag));
+            }
+            prev = curr;
+        }
+        
+        int ans = INT_MAX;
+        for(int i = 0; i < n; i++){
+            ans = min(ans, prev[i]);
+        }
+        return ans;
+    }
+    
     int minFallingPathSum(vector<vector<int>>& matrix) {
         int n = matrix.size();
         int ans = INT_MAX;
@@ -79,6 +113,7 @@ public:
         
         // return ans;
         
-        return solveTab(matrix);
+        // return solveTab(matrix);
+        return spaceOptimisation(matrix);
     }
 };
