@@ -38,7 +38,7 @@ public:
         for(int i = 0; i < n; i++){
             dp[i][0] = true;
         }
-        dp[0][arr[0]] = true; 
+        if(arr[0] <= k) dp[0][arr[0]] = true; 
 
         for(int index = 1; index < n; index++){
             for(int target = 1; target <= k; target++){
@@ -66,7 +66,9 @@ public:
         
         // return solve(n, target, nums, n - 1);
         
-        vector<vector<int>> dp(n, vector<int>(target + 1, -1));
-        return solveMem(n, target, nums, n - 1, dp);
+        // vector<vector<int>> dp(n, vector<int>(target + 1, -1));
+        // return solveMem(n, target, nums, n - 1, dp);
+        
+        return solveTab(n, target, nums);
     }
 };
