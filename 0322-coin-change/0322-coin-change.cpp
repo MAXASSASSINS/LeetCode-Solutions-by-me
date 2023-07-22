@@ -62,6 +62,37 @@ public:
         return dp[n - 1][amount];
     }
     
+    int spaceOptimisation(vector<int> &coins, int amount){
+        int n = coins.size();
+        
+        // vector<vector<int>> dp(n, vector<int> (amount + 1));
+        vector<int> prev(amount + 1);
+        vector<int> curr(amount + 1);
+        
+        for(int amt = 0; amt <= amount; amt++){
+            if(amt % coins[0] == 0){
+                prev[amt] = amt / coins[0];
+            }
+            else{
+                prev[amt] = 1e8;
+            }
+        }
+        
+        for(int index = 1; index < n; index++){
+            for(int amt = 0; amt <= amount; amt++){
+                int excl = prev[amt];
+                int incl = INT_MAX;
+                if(amt >= coins[index]){
+                    incl = 1 + curr[amt - coins[index]];
+                }   
+                curr[amt] = min(excl, incl);
+            }
+            prev = curr;
+        }
+        
+        return prev[amount];
+    }
+    
     
     
     int coinChange(vector<int>& coins, int amount) {
@@ -74,8 +105,9 @@ public:
         // int ans = solveMem(coins, amount, n - 1, dp);
         
         
-        int ans = solveTab(coins, amount);
+        // int ans = solveTab(coins, amount);
         
+        int ans = spaceOptimisation(coins, amount);
         if(ans > 1e4 + 1) return -1;
         return ans;
     }
