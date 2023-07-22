@@ -28,11 +28,35 @@ public:
         }
         return dp[index][target] = excl + incl;
     }
+    
+    int solveTab(vector<int> &coins, int amount){
+        int n = coins.size();
+        vector<vector<int>> dp(n, vector<int>(amount + 1, 0));
+        
+        for(int target = 0; target <= amount; target++){
+            if(target % coins[0] == 0) dp[0][target] = 1;
+        }
+        
+        for(int index = 1; index < n; index++){
+            for(int target = 0; target <= amount; target++){
+                int excl = dp[index - 1][target];
+                int incl = 0;
+                if(coins[index] <= target){
+                    incl = dp[index][target - coins[index]];
+                }
+                dp[index][target] = excl + incl;
+            }
+        }
+        
+        return dp[n - 1][amount];
+    }
+    
     int change(int amount, vector<int>& coins) {
         int n = coins.size();
         // return solve(coins, n - 1, amount);
         
-        vector<vector<int>> dp(n, vector<int>(amount + 1, -1));
-        return solveMem(coins, n - 1, amount, dp);
+        // vector<vector<int>> dp(n, vector<int>(amount + 1, -1));
+        // return solveMem(coins, n - 1, amount, dp);
+        return solveTab(coins, amount);
     }
 };
