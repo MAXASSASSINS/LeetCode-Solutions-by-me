@@ -35,7 +35,31 @@ public:
     }
     
     int solveTab(string s, string t, int m, int n){
-        return 0;
+        vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
+        
+        for(int i = 0; i <= m; i++){
+            dp[i][0] = i;
+        }
+        
+        for(int j = 0; j <= n; j++){
+            dp[0][j] = j;
+        }
+        
+        for(int i = 1; i <= m; i++){
+            for(int j = 1; j <= n; j++){
+                if(s[i - 1] == t[j - 1]){
+                    dp[i][j] = solveMem(s, t, i - 1, j - 1, dp); 
+                }
+                else{
+                    int insert = solveMem(s, t, i, j - 1, dp);
+                    int remove = solveMem(s, t, i - 1, j, dp);
+                    int replace = solveMem(s, t, i - 1, j - 1, dp);
+                    dp[i][j] = 1 + min(insert, min(remove, replace));
+                }
+            }
+        }
+        
+        return dp[m][n];
     }
     
     int minDistance(string word1, string word2) {
@@ -43,9 +67,9 @@ public:
         int n = word2.length();
         
         // return solve(word1, word2, m - 1, n - 1);
-        vector<vector<int>> dp(m + 1, vector<int>(n + 1, -1));
-        return solveMem(word1, word2, m, n, dp);
+        // vector<vector<int>> dp(m + 1, vector<int>(n + 1, -1));
+        // return solveMem(word1, word2, m, n, dp);
         
-        // return solveTab(word1, word2, m, n);
+        return solveTab(word1, word2, m, n);
     }
 };
