@@ -11,7 +11,7 @@ public:
             profit = max(buyKaro, skipKaro);
         }
         else{
-            int sellKaro = prices[index] + solve(prices, 1, index + 1, fee);
+            int sellKaro = prices[index] - fee + solve(prices, 1, index + 1, fee);
             int skipKaro = solve(prices, 0, index + 1, fee);
             profit = max(sellKaro, skipKaro);
         }
@@ -86,9 +86,9 @@ public:
     }
 
     int maxProfit(vector<int>& prices, int fee) {
-//        return solve(prices, 1, 0, fee);
-        int n = prices.size();
-        vector<vector<int>> dp(n + 1, vector<int> (2, -1));
+       // return solve(prices, 1, 0, fee);
+        // int n = prices.size();
+        // vector<vector<int>> dp(n + 1, vector<int> (2, -1));
 //        return solveMem(prices, 1,   0, dp, fee);
         // return solveTab(prices, fee);
        return solveSO(prices, fee);
