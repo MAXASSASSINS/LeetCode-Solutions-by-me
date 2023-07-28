@@ -14,8 +14,8 @@ public:
         
         if(dp[i][j] != -1) return dp[i][j];
         
-        int left = nums[i] + min(solve(nums, i + 2, j), solve(nums, i + 1, j - 1));
-        int right = nums[j] + min(solve(nums, i, j - 2), solve(nums, i + 1, j - 1));
+        int left = nums[i] + min(solveMem(nums, i + 2, j, dp), solveMem(nums, i + 1, j - 1, dp));
+        int right = nums[j] + min(solveMem(nums, i, j - 2, dp), solveMem(nums, i + 1, j - 1, dp));
         
         return dp[i][j] = max(left, right);
     }
