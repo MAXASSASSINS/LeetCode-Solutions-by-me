@@ -48,7 +48,27 @@ public:
         
         
         return dp[0][0];
-    }    
+    } 
+    
+    int solveTab2(vector<int> &nums){
+        int n = nums.size();
+        vector<int> dp(n, 1);
+        
+        for(int index = 0; index < n; index++){
+            for(int prev = 0; prev < index; prev++){
+                if(nums[index] > nums[prev]){
+                    dp[index] = max(dp[index], dp[prev] + 1);
+                }
+            }
+        }
+        
+        int maxi = INT_MIN;
+        for(auto x: dp){
+            maxi = max(maxi, x);
+        }
+        
+        return maxi;
+    }
     
     int lengthOfLIS(vector<int>& nums) {
         // return solve(nums, 0, -1);
@@ -57,7 +77,8 @@ public:
         vector<vector<int>> dp(n, vector<int> (n + 1, -1));
         // return solveMem(nums, 0, -1, dp);
         
-        return solveTab(nums);
+        // return solveTab(nums);
+        return solveTab2(nums);
         
     }
 };
