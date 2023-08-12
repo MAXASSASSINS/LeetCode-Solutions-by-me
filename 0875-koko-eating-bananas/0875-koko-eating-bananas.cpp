@@ -1,18 +1,24 @@
 class Solution {
 public:
-     int minEatingSpeed(vector<int>& piles, int H) {
-        int l = 1, r = 1000000000;
-        while (l < r) {
-            int m = (l + r) / 2, total = 0;
-            for (int p : piles)
-                total += (p + m - 1) / m;
-            if (total > H)
-                l = m + 1;
-            else
-                r = m;
+    int minEatingSpeed(vector<int>& piles, int h) {
+        int low = 1;
+        int high = 1e9;
+        
+        while(low <= high){
+            int mid = low + (high - low)/2;
+            long long total = 0;
+            for(auto pile: piles){
+                total += ceil((double)pile/mid);
+            }
+            if(total > h){
+                low = mid + 1;
+            }
+            else{
+                high = mid - 1;
+            }
         }
-        return l;
+        return low;
     }
-
-
+    
+    
 };
