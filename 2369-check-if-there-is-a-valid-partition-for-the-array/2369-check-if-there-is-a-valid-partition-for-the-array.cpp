@@ -52,11 +52,42 @@ public:
         
     }
     
+    bool solveTab(vector<int> &nums){
+        int n = nums.size();
+        vector<int> dp(n + 1);
+        
+        dp[0] = 1;
+        
+        for(int index = 1; index < n; index++){
+            bool twoEqual = false;
+            bool threeEqual = false;
+            bool threeIncreasing = false;
+
+            if(index > 0 && nums[index] == nums[index - 1]){
+                twoEqual = dp[index - 1];
+            }
+
+            if(index > 1 && nums[index] == nums[index - 1] && nums[index] == nums[index - 2]){
+                threeEqual = dp[index - 2];
+            }
+
+            if(index > 1 && nums[index] == nums[index - 1] + 1 && nums[index - 1] == nums[index - 2] + 1){
+                threeIncreasing = dp[index - 2];
+            }
+
+            dp[index + 1] = twoEqual || threeEqual || threeIncreasing;
+        }
+        return dp[n];
+    }
+    
+    
     bool validPartition(vector<int>& nums) {
         int n = nums.size();
         // return solve(nums, n - 1);
         
-        vector<int> dp(n, -1);
-        return solveMem(nums, n - 1, dp);
+        // vector<int> dp(n, -1);
+        // return solveMem(nums, n - 1, dp);
+        
+        return solveTab(nums);
     }
 };
