@@ -10,29 +10,46 @@
  */
 class Solution {
 public:
-    void insert(ListNode *t1, int val){
-        ListNode *node = new ListNode(val);
-        t1->next = node;
-    }
+    
     ListNode* partition(ListNode* head, int x) {
-        ListNode *t1 = new ListNode(INT_MIN);
-        ListNode *t2 = new ListNode(INT_MIN);
-        ListNode *h1 = t1, *h2 = t2;
+        if(!head) return NULL;
+        ListNode *hg = NULL, *hs = NULL, *tg = NULL, *ts = NULL;
         
         ListNode *temp = head;
+        
         while(temp != nullptr){
             if(temp->val < x){
-                insert(t1, temp->val);
-                t1 = t1->next;
-            }
+                if(!hs){
+                    hs = temp;
+                    ts = temp;
+                }
+                else{
+                    ts->next = temp;
+                    ts = temp;
+                }
+            }    
             else{
-                insert(t2, temp->val);
-                t2 = t2->next;
+                if(!hg){
+                    hg = temp;
+                    tg = temp;
+                }
+                else{
+                    tg->next = temp;
+                    tg = temp;
+                }
             }
             temp = temp->next;
         }
         
-        t1->next = h2->next;
-        return h1->next;
+        if(tg)
+            tg->next = nullptr;
+        
+        if(hs && ts){
+            ts->next = hg;      
+        }
+        
+        return hs ? hs : hg;
+        
+        
     }
 };
