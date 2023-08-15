@@ -17,14 +17,14 @@ public:
         return cnt <= k;
     }
     int splitArray(vector<int>& nums, int k) {
-        int mini = INT_MAX;
+        int maxi = INT_MIN;
         int total = 0;
         for(auto n: nums){
-            mini = min(mini, n);
+            maxi = max(maxi, n);
             total += n;
         }
         
-        int l = mini;
+        int l = maxi;
         int h = total;
         
         while(l <= h){
