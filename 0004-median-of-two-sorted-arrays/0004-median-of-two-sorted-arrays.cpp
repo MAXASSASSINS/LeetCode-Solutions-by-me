@@ -1,38 +1,49 @@
 class Solution {
 public:
-    double findMedianSortedArrays(vector<int> &nums1, vector<int> &nums2) {
-        if (nums1.size() == 0 && nums2.size() == 0){
-            return 0;
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        int n = nums1.size();
+        int m = nums2.size();
+        
+        if(n > m){
+            return findMedianSortedArrays(nums2, nums1);
         }
-        vector<int> ans(nums2.size() + nums1.size());
-        int i = 0, j = 0;
-        while (i < nums1.size() && j < nums2.size()) {
-            if (nums1.at(i) <= nums2.at(j)){
-                ans.at(i + j) = nums1.at(i);
-                i++;
+        
+        int low = 0;
+        int high = n;
+        
+        int left = (n + m + 1)/2;
+        
+        while(low <= high){
+            int mid1 = (low + high) / 2;
+            int mid2 = left - mid1;
+            
+            int l1 = INT_MIN, l2 = INT_MIN;
+            int r1 = INT_MAX, r2 = INT_MAX;
+            
+            if(mid1 - 1 >= 0) l1 = nums1[mid1 - 1];
+            if(mid2 - 1 >= 0) l2 = nums2[mid2 - 1];
+            if(mid1 < n) r1 = nums1[mid1];
+            if(mid2 < m) r2 = nums2[mid2];
+
+            if(l1 > r2){
+                high = mid1 - 1;
+            }
+            else if(l2 > r1){
+                low = mid1 + 1;
             }
             else{
-                ans.at(i + j) = nums2.at(j);
-                j++;
+                if((n + m) % 2 == 0){
+                    return (max(l1, l2) + min(r1, r2))/2.0;
+                }
+                else{
+                    return max(l1, l2);
+                }
             }
         }
-        while(i < nums1.size()){
-            ans.at(i + j) = nums1.at(i);
-            i++;
-        }
-        while (j < nums2.size()){
-            ans.at(i + j) = nums2.at(j);
-            j++;
-        }
-//        for (auto num : ans ) {
-//            cout<<num << " ";
-//        }
-        double median = 0;
-        if (ans.size() % 2 == 0)
-            median = double (ans[ans.size() / 2] + ans[(ans.size() - 1) / 2]) / 2;
-        else
-            median = double (ans[ans.size() / 2]);
-        cout<<"\n" << median <<"\n";
-        return  median;
+        
+        
+        return -1;
+        
+        
     }
 };
