@@ -13,10 +13,20 @@ public:
         ListNode *b = headB;
         
         while(a != b){
-            a = a == nullptr ? headB : a->next;
-            b = b == nullptr ? headA : b->next;
+            a = a->next;
+            b = b->next;
+            
+            if(!a && !b){
+                return nullptr;
+            }
+            
+            if(!a){
+                a = headB;
+            }
+            if(!b) b = headA;
         }
         
         return a;
+        
     }
 };
