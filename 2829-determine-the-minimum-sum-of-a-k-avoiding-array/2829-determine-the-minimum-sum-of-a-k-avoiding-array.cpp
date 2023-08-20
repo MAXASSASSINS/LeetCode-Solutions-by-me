@@ -5,14 +5,13 @@ public:
         
         int ans = 0;
         int count = 0;
-        for(int i = 1; i < 100; i++){
+        for(int i = 1; m.size() < n; i++){
             auto it = m.find(k - i);
             if(it == m.end()){
                 ans += i;
                 m[i] = 1;
                 count++;
             }
-            if(count == n) break;
         }
         
         return ans;
