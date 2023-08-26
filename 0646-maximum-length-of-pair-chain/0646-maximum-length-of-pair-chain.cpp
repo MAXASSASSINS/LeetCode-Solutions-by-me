@@ -36,6 +36,27 @@ public:
     }
     
     
+//     int solveTab(vector<vector<int>> &pairs){
+//         int n = pairs.size();
+//         vector<vector<int>> dp(n + 1, vector<int>(n + 2, 0));
+//         for(int i = n - 1; i >= 0; i++){
+//             for(int prev = i - 1; prev >= -1; prev++){
+//                 // exlucde 
+//                  int excl = solveMem(pairs, index + 1, prev, dp);
+        
+//                 // include
+//                 int incl = 0;
+//                 if(prev == -1 || pairs[index][0] > pairs[prev][1]){
+//                     incl = 1 + dp[i + 1][prev + 1];       
+//                 }
+//                 dp[i][prev + 1] = max(incl, excl);
+//         }
+        
+//     }
+        
+//         return 0;
+//     }
+    
     int findLongestChain(vector<vector<int>>& pairs) {
         int n = pairs.size();
         vector<vector<int>> dp(n, vector<int>(n + 1, -1));
