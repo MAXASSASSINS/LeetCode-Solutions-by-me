@@ -10,7 +10,7 @@ public:
         for(int r = 0; r < nums.size(); r++){
             prod *= nums[r];
             
-            while(l <= r && prod >= k){
+            while(prod >= k){
                 prod /= nums[l];
                 l++;
             }
