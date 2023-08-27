@@ -43,7 +43,7 @@ public:
     
     
     bool canCross(vector<int>& stones) {
-        vector<vector<int>> dp(stones.size() + 1, vector<int>(2500, -1));
+        vector<vector<int>> dp(stones.size() + 1, vector<int>(2001, -1));
         return solve(stones, 0, 0, dp);
     }
 };
