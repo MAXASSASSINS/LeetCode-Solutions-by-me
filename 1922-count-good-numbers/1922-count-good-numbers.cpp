@@ -12,22 +12,9 @@ public:
         }
     }
     int countGoodNumbers(long long n) {
-        long long even = 0;
-        if(n % 2 == 0) even = n / 2;
-        else even = n/2 + 1;
-        long long  odd = n - even;
-        
-        int po = 4;
-        int pe = 5;
-        int modulo = 1e9 + 7;
-        long long ans = 0;
-        
-        
-        long long f = pow(4, odd, modulo) % modulo;
-        long long s = pow(5, even, modulo) % modulo;
-        
-        ans = (f * s) % modulo;
-        cout<<f<<"\t"<<s;
-        return (int)ans;
+        long long odd = n / 2;
+        long long even = n / 2 + n % 2;
+        int mod = 1e9 + 7;
+        return (pow(5, even, mod) * pow(4, odd, mod)) % mod;
     }
 };
