@@ -1,6 +1,7 @@
 class Solution {
 public:
     void solve(int k, int n, int num,  vector<vector<int>> &ans, vector<int> &temp){
+        if(n < 0) return;
         if(num > 9){
             if(temp.size() == k && n == 0){
                 ans.push_back(temp);
