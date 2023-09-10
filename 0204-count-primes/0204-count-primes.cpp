@@ -9,8 +9,8 @@ public:
         
         for(int i = 2; i < n; i++){
             if(vec[i]){
-                for(int j = 2; i * j < n; j++){
-                    vec[i * j] = false;
+                for(long long j = (long long)i * i; j < n; j += i){
+                    vec[j] = false;
                 }
             }
         }
