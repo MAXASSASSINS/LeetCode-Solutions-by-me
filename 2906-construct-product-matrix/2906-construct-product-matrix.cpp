@@ -17,9 +17,7 @@ public:
                 prefix[i][j] = prod;  
                 prod *= grid[i][j] % mod;
                 prod %= mod;
-                cout<<prod<<" ";
             }
-            cout<<endl;
         }
         
         prod = 1;
