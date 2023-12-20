@@ -17,7 +17,6 @@ public:
         if(min1 + min2 > money){
             return money;
         }
-        cout<<min1<<"\t"<<min2;
         return money - min1 - min2;
     }
 };
