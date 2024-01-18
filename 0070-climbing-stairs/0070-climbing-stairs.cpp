@@ -1,53 +1,20 @@
 class Solution {
 public:
-    
-    int ans = 0;
-    int solve(int n){
-        if(n <= 1) return 1;
-        return solve(n - 1) + solve(n - 2);
-    }
-    
-    int solveMem(int n, vector<int> &dp){
-        if(n <= 1) return 1;
-            
-        if(dp[n] != -1) return dp[n];
+    int solve(int n, int index, vector<int> &dp){
+        if(index > n) return 0;
+        if(index == n) return 1;
         
-        return dp[n] =  solveMem(n - 1, dp) + solveMem(n - 2, dp);
-    }
-    
-    int solveTab(int n){
-        vector<int> dp(n + 1);
-        dp[0] = 1;
-        dp[1] = 1;
+        if(dp[index] != -1) return dp[index];
         
-        for(int i = 2; i <= n; i++){
-            dp[i] = dp[i - 1] + dp[i - 2];
-        }
-            
-        return dp[n];
-    }
-    
-    
-    int spaceOptimise(int n){
-        int a = 1, b = 1;
+        int one = solve(n, index + 1, dp);
+        int two = solve(n, index + 2, dp);
         
-        for(int i = 2; i <= n; i++){
-            int temp = a + b;
-            b = a;
-            a = temp;
-        }
-            
-        return a;
-    }
-    
-    int climbStairs(int n) {
-        // return solve(n);
         
-        // vector<int> dp(n + 1, -1);
-        // return solveMem(n, dp);
-        
-        // return solveTab(n);
-        return spaceOptimise(n);
+        return dp[index] = one + two;
 
+    }
+    int climbStairs(int n) {
+        vector<int> dp(n + 1, -1);
+        return solve(n, 0, dp);
     }
 };
