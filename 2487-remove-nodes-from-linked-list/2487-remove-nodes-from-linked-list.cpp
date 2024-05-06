@@ -11,21 +11,27 @@
 class Solution {
 public:
     ListNode* removeNodes(ListNode* head) {
-        ListNode *ans = nullptr;
-        stack<int> st;
-        while(head != nullptr){
-            while(!st.empty() && head->val > st.top()){
+        stack<ListNode*> st;
+        ListNode *temp = head;
+        while(temp != nullptr){
+            int val = temp->val;
+            while(!st.empty() && val > st.top()->val){
                 st.pop();
             }
-            st.push(head->val);
-            head = head->next;
+            st.push(temp);
+            cout<<st.top()->val<<"\t";
+            temp = temp->next;
         }
+        
+        cout<<st.size();
+        
+        ListNode *dummy = new ListNode(INT_MAX);
         while(!st.empty()){
-            ListNode *temp = new ListNode(st.top());
+            ListNode *top = st.top();
+            top->next = dummy->next;
+            dummy->next = top;
             st.pop();
-            temp->next = ans;
-            ans = temp;
         }
-        return ans;
+        return dummy->next;
     }
 };
