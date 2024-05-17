@@ -14,9 +14,9 @@ public:
     
     TreeNode* removeLeafNodes(TreeNode* root, int target) {
         if(!root) return nullptr;
-        if(!root->left && !root->right && root->val == target){
-            return nullptr;
-        }
+        // if(!root->left && !root->right && root->val == target){
+        //     return nullptr;
+        // }
         
         root->left = removeLeafNodes(root->left, target);
         root->right = removeLeafNodes(root->right, target);
