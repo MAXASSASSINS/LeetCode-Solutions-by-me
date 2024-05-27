@@ -26,27 +26,27 @@ public:
         int high = nums.size();
         
         
-//         while(low <= high){
-//             int mid = low + (high - low)/2;
+        while(low <= high){
+            int mid = low + (high - low)/2;
             
-//             int idx = getIdx(nums, mid);
-//             int numsToRight = n - idx - 1;
-//             if(numsToRight == mid) return mid;
-//             else if(numsToRight > mid){
-//                 low = mid + 1;
-//             }
-//             else{
-//                 high = mid - 1;
-//             }
-//         }
-        
-        
-        for(int i = low; i <= high; i++){            
-            int idx = getIdx(nums, i);
-            cout<<idx<<"\t";
+            int idx = getIdx(nums, mid);
             int numsToRight = n - idx - 1;
-            if(numsToRight == i) return i;
+            if(numsToRight == mid) return mid;
+            else if(numsToRight > mid){
+                low = mid + 1;
+            }
+            else{
+                high = mid - 1;
+            }
         }
+        
+        
+        // for(int i = low; i <= high; i++){            
+        //     int idx = getIdx(nums, i);
+        //     cout<<idx<<"\t";
+        //     int numsToRight = n - idx - 1;
+        //     if(numsToRight == i) return i;
+        // }
         
         return -1;
     }
