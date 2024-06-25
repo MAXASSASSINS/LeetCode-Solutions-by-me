@@ -11,37 +11,17 @@
  */
 class Solution {
 public:
-    void inorder(TreeNode *root, vector<int> &vec){
+    void solve(TreeNode *root, int &sum){
         if(!root) return;
         
-        if(root->left){
-            inorder(root->left, vec);
-        }
-        vec.push_back(root->val);
-        if(root->right){
-            inorder(root->right, vec);
-        }
+        solve(root->right, sum);
+        sum += root->val;
+        root->val = sum;
+        solve(root->left, sum);
     }
     TreeNode* bstToGst(TreeNode* root) {
-        vector<int> vec;
-        inorder(root, vec);
-        unordered_map<int,int> m;
-        int n = vec.size();
-        m[vec[n - 1]] = vec[n - 1];
-        for(int i = n - 2; i >= 0; i--){
-            m[vec[i]] = m[vec[i + 1]] + vec[i];
-        }
-        
-        queue<TreeNode *> q;
-        q.push(root);
-        while(!q.empty()){
-            auto node = q.front();
-            q.pop();
-            node->val = m[node->val];
-            if(node->left) q.push(node->left);
-            if(node->right) q.push(node->right);
-        }
-        
+        int sum = 0;
+        solve(root, sum);
         return root;
     }
 };
