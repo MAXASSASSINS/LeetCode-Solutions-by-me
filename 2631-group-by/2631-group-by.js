@@ -7,7 +7,7 @@ Array.prototype.groupBy = function(fn) {
     
     this.forEach(x => {
         let key = fn(x);
-        if(obj[key])
+        if(key in obj)
             obj[key].push(x);
         else
             obj[key] = [x];
