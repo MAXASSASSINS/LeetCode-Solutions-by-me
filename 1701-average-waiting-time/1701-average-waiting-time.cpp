@@ -14,6 +14,6 @@ public:
             }
         }
         
-        return double(totalWaitingTime) / customers.size();
+        return totalWaitingTime / customers.size();
     }
 };
