@@ -1,8 +1,8 @@
 class Solution {
 public:
     double averageWaitingTime(vector<vector<int>>& customers) {
-        long long time = 0;
-        long long totalWaitingTime = 0;
+        double time = 0;
+        double totalWaitingTime = 0;
         for(auto customer: customers){
             if(customer[0] > time){
                 totalWaitingTime += customer[1];
