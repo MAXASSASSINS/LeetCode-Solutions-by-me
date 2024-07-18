@@ -1,21 +1,40 @@
 class Solution {
 public:
-    vector<int> findPeakGrid(vector<vector<int>>& matrix) {
-        int n = matrix.size(), m = matrix[0].size(), lo = 0, hi = m - 1, mid; 
-        while (lo <= hi) {
-            mid = lo + (hi - lo) / 2;
-            int max_row = 0;
-            for (int i = 0; i < n; ++i) {
-                if (matrix[max_row][mid] < matrix[i][mid])
-                    max_row = i;
+    int getMaxIndex(vector<vector<int>> &mat, int col){
+        int maxi = 0;
+        for(int i = 1; i < mat.size(); i++){
+            if(mat[maxi][col] < mat[i][col]){
+                maxi = i;
             }
-            if ((mid == 0 || matrix[max_row][mid] > matrix[max_row][mid - 1]) && 
-                (mid == m - 1 || matrix[max_row][mid] > matrix[max_row][mid + 1]))
-                return {max_row, mid};
-            else if (mid > 0 && matrix[max_row][mid - 1] > matrix[max_row][mid])
-                hi = mid - 1;
-            else
-                lo = mid + 1;
+        }
+        
+        return maxi;
+    }
+    vector<int> findPeakGrid(vector<vector<int>>& mat) {
+        int m = mat.size();
+        int n = mat[0].size();
+        
+        int low = 0;
+        int high = n - 1;
+        
+        while(low <= high){
+            int mid = (low + high) / 2;
+            int maxRow = getMaxIndex(mat, mid);
+            cout<<maxRow<<endl;
+            
+            int curr = mat[maxRow][mid];
+            int left = mid - 1 >= 0 ? mat[maxRow][mid - 1] : -1;
+            int right = mid + 1 < n ? mat[maxRow][mid + 1] : -1;
+            
+            if(curr > left && curr > right){
+                return {maxRow, mid};
+            }
+            else if(left > curr){
+                high = mid - 1;
+            }
+            else{
+                low = mid + 1;
+            }
         }
         return {-1, -1};
     }
