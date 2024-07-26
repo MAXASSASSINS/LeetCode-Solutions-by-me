@@ -1,25 +1,27 @@
 class Solution {
 public:
-    
     int countPrimes(int n) {
-        if(n == 0 || n == 1) return 0;
-        vector<bool> vec(n, true);
-        vec[0] = false;
-        vec[1] = false;
+        if(n <= 1) return 0;
+        vector<bool> primes(n, true);
         
-        for(int i = 2; i <= sqrt(n); i++){
-            if(vec[i]){
-                for(long long j = (long long)i * i; j < n; j += i){
-                    vec[j] = false;
+        primes[0] = false;
+        primes[1] = false;
+        
+        for(int i = 2; i < n; i++){
+            if(primes[i] == true){
+                int mul = i;
+                for(int j = i + mul; j < n; j += mul){
+                    primes[j] = false;
                 }
             }
+                
         }
         
-        int ans = 0;
-        for(auto x: vec){
-            if(x) ans++;
+        int count = 0;
+        for(auto x: primes){
+            if(x == true) count++;
         }
         
-        return ans;
+        return count;
     }
 };
