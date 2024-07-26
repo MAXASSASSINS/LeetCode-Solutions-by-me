@@ -7,8 +7,10 @@ public:
         primes[0] = false;
         primes[1] = false;
         
+        int count = 0;
         for(int i = 2; i < n; i++){
             if(primes[i] == true){
+                count++;
                 int mul = i;
                 for(int j = i + mul; j < n; j += mul){
                     primes[j] = false;
@@ -17,10 +19,10 @@ public:
                 
         }
         
-        int count = 0;
-        for(auto x: primes){
-            if(x == true) count++;
-        }
+//         int count = 0;
+//         for(auto x: primes){
+//             if(x == true) count++;
+//         }
         
         return count;
     }
