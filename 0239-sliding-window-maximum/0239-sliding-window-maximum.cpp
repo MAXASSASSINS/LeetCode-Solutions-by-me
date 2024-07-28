@@ -1,23 +1,45 @@
 class Solution {
 public:
     vector<int> maxSlidingWindow(vector<int>& nums, int k) {
-        vector<int> ans;
+        deque<int> dq;
         int n = nums.size();
+        vector<int> ans;
         
-        set<pair<int,int>, greater<pair<int,int>>> st;
-        
-        for(int i = 0; i < k; i++){
-            st.insert({nums[i], i});
+        for(int i = 0; i < k ; i++){
+            if(dq.empty()){
+                dq.push_front(i);
+            }
+            else if(nums[i] > nums[dq.back()]){
+                while(!dq.empty() && nums[i] > nums[dq.back()]){
+                    dq.pop_back();
+                }
+                dq.push_back(i);
+            }
+            else{
+                dq.push_back(i);
+            }
         }
         
-        ans.push_back(st.begin()->first);
+        ans.push_back(nums[dq.front()]);
         
         for(int i = k; i < n; i++){
-            st.erase({nums[i - k], i - k});
-            st.insert({nums[i], i});
-            ans.push_back(st.begin()->first);
+            if(dq.front() <= i - k){
+                dq.pop_front();
+            }
+            if(dq.empty()){
+                dq.push_front(i);
+            }
+            if(nums[i] > nums[dq.back()]){
+                while(!dq.empty() && nums[i] > nums[dq.back()]){
+                    dq.pop_back();
+                }
+                dq.push_back(i);
+            }
+            else{
+                dq.push_back(i);
+            }
+            ans.push_back(nums[dq.front()]);
         }
-        
         return ans;
     }
 };
