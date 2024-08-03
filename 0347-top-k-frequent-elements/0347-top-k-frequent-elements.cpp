@@ -1,8 +1,6 @@
+typedef pair<int,int> pa;
 class Solution {
 public:
-    static bool func(pair<int,int> p1, pair<int,int> p2){
-        return p1.second > p2.second;
-    }
     
     vector<int> topKFrequent(vector<int>& nums, int k) {
         unordered_map<int,int> m;
@@ -10,17 +8,20 @@ public:
             m[x]++;
         }
         
-        vector<pair<int,int>> vec(m.begin(), m.end());
+        priority_queue<pa, vector<pa>, greater<pa>> pq;
         
-        sort(vec.begin(), vec.end(), func);
-        
-        vector<int> ans;
-        
-        for(int i = 0; i < k; i++){
-            auto p = vec[i];
-            ans.push_back(p.first);
+        for(auto it = m.begin(); it != m.end(); it++){
+            pq.push({it->second, it->first});
+            if(pq.size() > k) pq.pop();
         }
         
-        return ans;   
+        vector<int> ans;
+        while(!pq.empty()){
+            ans.push_back(pq.top().second);
+            pq.pop();
+        }
+        
+        return ans;
+         
     }
 };
