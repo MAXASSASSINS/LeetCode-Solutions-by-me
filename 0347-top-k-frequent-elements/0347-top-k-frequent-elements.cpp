@@ -1,21 +1,26 @@
 class Solution {
 public:
+    static bool func(pair<int,int> p1, pair<int,int> p2){
+        return p1.second > p2.second;
+    }
+    
     vector<int> topKFrequent(vector<int>& nums, int k) {
-        unordered_map<int, int> freq;
-        for (auto num : nums) freq[num]++;
-        
-        vector<vector<int>> buckets(nums.size()+1);
-        for (auto [a, b] : freq)
-            buckets[b].push_back(a);
-        
-        vector<int> res;
-        for (int i = nums.size(); k; i--) {
-            for (auto a : buckets[i]) {
-                res.push_back(a);
-                k--;
-            }
+        unordered_map<int,int> m;
+        for(auto x: nums){
+            m[x]++;
         }
         
-        return res;
+        vector<pair<int,int>> vec(m.begin(), m.end());
+        
+        sort(vec.begin(), vec.end(), func);
+        
+        vector<int> ans;
+        
+        for(int i = 0; i < k; i++){
+            auto p = vec[i];
+            ans.push_back(p.first);
+        }
+        
+        return ans;   
     }
 };
