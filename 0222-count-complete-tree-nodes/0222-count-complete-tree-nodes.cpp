@@ -11,39 +11,32 @@
  */
 class Solution {
 public:
-    
-    int getLeftH(TreeNode *root){
+    int getHeight(TreeNode *root, bool left){
         int h = 0;
         while(root){
-            root = root->left;
+            root = left ? root->left : root->right;
             h++;
         }
-        
         return h;
     }
-    
-    int getRightH(TreeNode *root){
-        int h = 0;
-        while(root){
-            root = root->right;
-            h++;
+    int solve(TreeNode *root){
+        if(!root) return 0;
+        int lh = getHeight(root, true);
+        int rh = getHeight(root, false);
+        // cout<<lh<<"\t"<<rh<<endl;
+        if(lh == rh){
+            return pow(2, lh) - 1;
         }
         
-        return h;
+        int ln = solve(root->left);
+        int rn = solve(root->right);
+        
+        // cout<<"----"<<ln<<"\t"<<rn<<endl;
+        
+        return 1 + ln + rn;
     }
     
     int countNodes(TreeNode* root) {
-        if(!root) return 0;
-        
-        int leftH = getLeftH(root);
-        int rightH = getRightH(root);
-        
-        if(leftH == rightH){
-            return pow(2, leftH) - 1;
-        }
-        
-        return 1 + countNodes(root->left) + countNodes(root->right);
-        
-        
+        return solve(root);
     }
 };
