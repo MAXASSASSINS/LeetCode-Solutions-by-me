@@ -22,10 +22,10 @@ class Solution {
 public:
     void solve(Node *root, vector<int> &ans){
         if(!root) return;
-        if(root->children.size() == 0){
-            ans.push_back(root->val);
-            return;
-        }
+        // if(root->children.size() == 0){
+        //     ans.push_back(root->val);
+        //     return;
+        // }
         
         for(int i = 0; i < root->children.size(); i++){
             solve(root->children[i], ans);
