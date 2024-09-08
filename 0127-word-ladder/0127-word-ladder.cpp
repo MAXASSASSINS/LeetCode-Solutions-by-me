@@ -1,49 +1,39 @@
 class Solution {
 public:
-    int ladderLength(string startWord, string targetWord,
-                         vector<string> &wordList)
-    {
-    // Creating a queue ds of type {word,transitions to reach ‘word’}.
+    
+    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+        unordered_set<string> words(wordList.begin(), wordList.end());
+        int n = beginWord.length();
         queue<pair<string, int>> q;
-
-        // BFS traversal with pushing values in queue 
-        // when after a transformation, a word is found in wordList.
-        q.push({startWord, 1});
-
-        // Push all values of wordList into a set
-        // to make deletion from it easier and in less time complexity.
-        unordered_set<string> st(wordList.begin(), wordList.end());
-        st.erase(startWord);
-        while (!q.empty())
-        {
-            string word = q.front().first;
-            int steps = q.front().second;
+        q.push({beginWord, 1});
+        words.erase(beginWord);
+        
+        int res = INT_MAX;
+        
+        while(!q.empty()){
+            auto p = q.front();
             q.pop();
-
-            // we return the steps as soon as
-            // the first occurence of targetWord is found.
-            if (word == targetWord)
-                return steps;
-
-            for (int i = 0; i < word.size(); i++)
-            {
-                // Now, replace each character of ‘word’ with char
-                // from a-z then check if ‘word’ exists in wordList.
-                char original = word[i];
-                for (char ch = 'a'; ch <= 'z'; ch++)
-                {
-                    word[i] = ch;
-                    // check if it exists in the set and push it in the queue.
-                    if (st.find(word) != st.end())
-                    {
-                        st.erase(word);
-                        q.push({word, steps + 1});
+            string s = p.first;
+            int level = p.second;
+            if(s == endWord){
+                res = min(res, level);
+            }
+            
+            for(int i = 0; i < n; i++){
+                for(int j = 0; j < 26; j++){
+                    char temp = s[i];
+                    s[i] = 'a' + j;
+                    if(words.find(s) != words.end()){
+                        words.erase(s);
+                        q.push({s, level + 1});
                     }
+                    s[i] = temp;
                 }
-                word[i] = original;
             }
         }
-        // If there is no transformation sequence possible
-        return 0;
+        
+        if(res == INT_MAX) return 0;
+        return res;
+        
     }
 };
