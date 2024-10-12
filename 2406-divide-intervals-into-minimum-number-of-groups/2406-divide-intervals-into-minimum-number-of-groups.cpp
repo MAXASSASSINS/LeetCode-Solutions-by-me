@@ -11,16 +11,6 @@ public:
         sort(arrivals.begin(), arrivals.end());
         sort(departures.begin(), departures.end());
         
-        for(auto x: arrivals){
-            cout<<x<<"\t";
-        }
-        cout<<endl;
-        
-        for(auto x: departures){
-            cout<<x<<"\t";
-        }
-        cout<<endl;
-        
         int cnt = 0;
         int i = 0, j = 0;
         int res = 0;
