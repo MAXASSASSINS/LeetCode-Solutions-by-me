@@ -28,18 +28,7 @@ public:
                     else return false;
                 }
             }
-            // for(auto x: nums){
-            //     cout<<x<<"\t";
-            // }
-            // cout<<endl;
         }
-        
-        
-        // cout<<m[2]<<"\t"<<m[3];
-        
-        // for(auto it = m.begin(); it != m.end(); it++){
-        //     cout<<it->first<<"\t"<<it->second<<endl;
-        // }
         
         return is_sorted(nums.begin(), nums.end());
         
