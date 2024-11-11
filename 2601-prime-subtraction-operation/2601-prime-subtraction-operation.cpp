@@ -29,15 +29,10 @@ public:
         for(int i = n - 2; i >= 0; i--){
             if(nums[i] >= nums[i + 1]){
                 int index = lower_bound(primes.begin(), primes.end(), nums[i] - nums[i + 1] + 1) - primes.begin();
-                // cout<<index<<"\t";
                 if(primes[index] >= nums[i]) return false;
                 nums[i] -= primes[index];
                 if(nums[i] > nums[i + 1]) return false;
             }
-        }
-        
-        for(auto x: nums){
-            // cout<<x<<"\t";
         }
         
         return true;
